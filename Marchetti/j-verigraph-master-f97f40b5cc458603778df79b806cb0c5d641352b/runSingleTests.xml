@@ -1,0 +1,47 @@
+<project basedir="." default="run" name="runSingleTest">
+  <property name="src" location="service\src" />
+  <property name="libs" location="lib" />
+	<property name="className" value="world"/>
+  <path id="class.path">
+  	<pathelement location="service\build\com.microsoft.z3.jar" />
+      <pathelement location="build\classes" />
+  </path>
+
+ <target name="compile">
+ 	<mkdir dir="build\classes"/>
+    <javac classpathref="class.path" srcdir="service\src\mcnet" destdir="build\classes"/>
+ 	<javac classpathref="class.path" srcdir="service\src\tests" destdir="build\classes"/>
+ 	<javac classpathref="class.path" srcdir="service\src\myTests" destdir="build\classes"/>
+  </target> 
+
+  <target name="jar"  depends="compile">
+       <mkdir dir="build\jar"/>
+    <jar destfile="./jar/Class.jar" basedir="build\classes">
+        <manifest>
+            <attribute name="Main-Class" value="tests.${className}"/>
+    </manifest>
+        </jar>
+  	<jar destfile="./jar/Class2.jar" basedir="build\classes">
+  	        <manifest>
+  	            <attribute name="Main-Class" value="myTests.${className}"/>
+  	    </manifest>
+  	        </jar>
+    </target>
+
+    <target name="run"  depends="jar">
+    	<echo message="Class: ${className}"/>
+    	<echo message="Result with the previous class"/>
+    	<java classname="tests.${className}" failonerror="true" fork="yes">
+    		<classpath>
+    			<path refid="class.path" />
+    		</classpath>
+    	</java>
+    	<echo message="Result with the new class"/>
+    	<java classname="myTests.${className}" failonerror="true" fork="yes">
+    	    <classpath>
+    	    	<path refid="class.path" />
+    	    </classpath>
+    	</java>
+    </target>
+
+</project>

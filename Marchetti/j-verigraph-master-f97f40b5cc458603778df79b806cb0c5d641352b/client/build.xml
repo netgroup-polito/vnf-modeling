@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!-- Client for the Counter Service
+     Running this script from eclipse may give some problems with
+     the Eclipse console. If the client does not work properly,
+     run the script from the command line or invoke the client
+     using the Eclipse run facility on the java source file.
+-->
+<project name="vnfchainverification-client" default="run.client" basedir=".">
+
+   <!-- define directories -->
+   	<property name="src.dir"
+      location="${basedir}/src"/>
+   	<property name="gen.dir"
+	  location="${basedir}/generated"/>
+	<property name="build.dir"
+	  location="${gen.dir}/classes"/>
+	<property name="gen-src.dir"
+	  location="${gen.dir}/gen-src"/>
+	<property name="testclient" value="WS_Polito_AntispamTest" />
+	
+   <!-- define wsdl location and client name and package  -->
+	<property name="WSDL"
+      value="http://localhost:8081/WebServiceSample/VNFChainVerificationService?wsdl"/>
+
+	<property name="package"
+	      value="it.polito.vnfchainverification"/>
+	<property name="client.class"
+      value="${package}.${testclient}"/>
+	
+   <!-- define the execution classpath -->
+   <path id="classpath">
+	    <pathelement path="${build.dir}" />
+   </path>
+	
+   <!-- define the "init" target -->
+	<target name="init" depends="clean">
+	    <mkdir dir="${build.dir}"/>
+		<mkdir dir="${gen-src.dir}"/>
+	</target>  
+	
+   <!-- define the "compile.wsdl" target -->
+   <target name="compile.wsdl" depends="init">
+      <exec executable="wsimport">
+        <arg line="-d ${build.dir} -p ${package} -s ${gen-src.dir} -keep -wsdllocation ${WSDL} ${WSDL}"/>
+      </exec>
+   </target>   
+   
+   <!-- define the "build" target -->
+   <target name="build" depends="compile.wsdl">
+     <javac destdir="${build.dir}" includeantruntime="false">
+        <src path="${src.dir}" />
+     </javac>
+   </target>
+   
+   <!-- define the "run.client" target -->
+   <target name="run.client" depends="build">
+      <java classname="${client.class}" fork="true">
+        <classpath refid="classpath"/>
+      </java>
+   </target>
+	
+
+   <!-- define the "clean" target -->
+   <target name="clean">
+	 <delete dir="${gen.dir}"/>
+   </target>
+
+</project>
