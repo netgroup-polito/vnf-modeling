@@ -1,0 +1,96 @@
+/**********************************************************************************
+*																				  *
+* Copyright notice: please read file license.txt in the application root folder.  *
+*                                              								      *
+**********************************************************************************/
+
+package dnsFilter;
+
+import java.util.Set;
+
+
+import applib.DNS;
+import applib.DnsQuestion;
+import frog.export.log.Levels;
+import frog.export.packetDispatcher.Application_exit_status;
+import stats.QueryCache;
+import stats.QueryInfo;
+import util.Logger;
+import frog.export.packetDispatcher.*;
+
+public class DNS_Request_Blacklist_Handler
+{
+	private Set<String> blacklist;
+	
+	private Privileges privileges;	
+	private final String MODULE_NAME = DnsFilterMonoliticVersionActivator.MODULE_NAME;
+    
+    /**
+     * Istantiate the Class
+     * 
+     * @param blacklist an hashset containing the domains to reject
+     */
+    public DNS_Request_Blacklist_Handler(Set<String> blacklist, Privileges privileges){
+        this.blacklist = blacklist;
+        this.privileges = privileges;
+    }
+    
+    /**
+     *  It handle a  dns query packet. If the query searched is in the blacklist, it logs that and stops the 
+     *	DNS packet; otherwise, it forwards the query.
+     *
+     * @param sw the switch who has receive the packet
+     * @param pi a dns query packet
+     */
+	public Application_exit_status handle_packet(byte[] packet)
+	{
+		/*
+		*	Iterates over the queries in the packet
+		*/
+		for(DnsQuestion question : DNS.getQuestions(packet))
+		{
+			/*
+			*	Each query consists of:
+			*		Name
+			*		Type
+			*		Class
+			*/
+	        Logger.log(Levels.PEX_DEBUG, MODULE_NAME, "handle packet: analyzing dns questions");
+			if(question.getDomainType() == DNS.TYPE_A || question.getDomainType() == DNS.TYPE_AAAA)
+		    {
+		    	/*
+		    	*	Only queries of type A (ask for ipv4 addresses) and AAAA (ask for ipv6 addresses)
+		    	*	are considered.
+		    	*/
+		        Logger.log(Levels.PEX_DEBUG, MODULE_NAME, "queried domain " + question.getDomain() + " type A or AAAA");
+		        
+		        if(this.blacklist.contains(question.getDomain()))
+		        {
+		        	Logger.log(Levels.PEX_DEBUG, MODULE_NAME, "queried domain " + question.getDomain() + " is in blacklist");
+		            
+		        	Logger.log(Levels.PEX_DEBUG, MODULE_NAME, "Blocked request for " + question.getDomain());
+		        
+		        	QueryCache.putQuery(question.getDomain(), new QueryInfo(question.getDomain(),true));
+		           
+		           	/*
+		           	*	The packet is into the black list, then it must be blocked!
+		           	*	Before dropping, we must check if we can do it, and print a message if we cannot
+		           	*/
+		           	if(!privileges.canDropPacket())
+		           		Logger.log(Levels.PEX_WARNING, MODULE_NAME, "I'm going to drop a packet, but I don't have privileges!");
+		           		
+		            return Application_exit_status.DROP;
+		        }
+				else
+		        	Logger.log(Levels.PEX_DEBUG, MODULE_NAME, "queried domain " + question.getDomain() + " is NOT in blacklist");
+		        
+		        QueryCache.putQuery(question.getDomain(), new QueryInfo(question.getDomain(),false));
+		    }	    
+		}
+		
+		/*
+		*	If the application is here, the packet does not contain any query that matches the black list
+		*/
+		return Application_exit_status.CONTINUE;
+	}
+}

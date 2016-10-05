@@ -1,0 +1,33 @@
+Reading VNF model...
+Class name -> Nat
+Found method -> onReceivedPacket
+	Found parameter -> packet
+	Body -> 2580 bytes
+	Body start position = 961
+	Found marker annotation -> Override
+	Parsing model...
+	*****Found action FORWARD [UPSTREAM] (with 1 conditions leading to it) at line 47. Reached nesting level 1
+		Condition #1 (IF): configList.contains(packet.getField(PacketField.IP_SRC).toString()) && !configList.contains(packet.getField(PacketField.IP_DST))
+
+		Rules for the outgoing packet:
+			packet.PacketField.IP_SRC	= Integer.parseInt(configMap.get("publicIP"))
+			packet.PacketField.PORT_SRC	= Constants.ANY_VALUE
+		The remaining fields are unchanged
+
+	*****Found action FORWARD [UPSTREAM] (with 2 conditions leading to it) at line 71. Reached nesting level 2
+		Previous IF-THEN-ELSE #1 configList.contains(packet.getField(PacketField.IP_SRC).toString()) && !configList.contains(packet.getField(PacketField.IP_DST)) (IF has RETURN=true) (ELSE has RETURN=false)
+		Condition #1 (IF): !configList.contains(packet.getField(PacketField.IP_SRC)) && packet.satisfies(new Expression(PacketField.IP_DST,Integer.parseInt(configMap.get("publicIP")),Operator.EQUAL))
+		Condition #2 (IF): state.matchPacket(p1,Type.RECEIVED) && state.matchPacket(p2,Type.SENT) && Constraints.requireConstraint(new Expression(p2.getField(PacketField.PORT_SRC),packet.getField(PacketField.PORT_DST),Operator.EQUAL))
+
+		Rules for the outgoing packet:
+			packet.PacketField.IP_SRC	= Integer.parseInt(configMap.get("publicIP"))
+			packet.PacketField.PORT_SRC	= Constants.ANY_VALUE
+			packet.PacketField.IP_DST	= p1.getField(PacketField.IP_SRC)
+			packet.PacketField.PORT_DST	= p1.getField(PacketField.PORT_SRC)
+		The remaining fields are unchanged
+
+	Skipped 1 DROP actions.
+
+	Parsing done!
+
+!All Done!

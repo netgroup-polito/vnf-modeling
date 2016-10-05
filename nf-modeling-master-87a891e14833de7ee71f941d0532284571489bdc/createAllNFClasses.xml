@@ -1,0 +1,106 @@
+<project basedir="." default="run" name="createAllNFClasses">
+  <property name="src" location="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src" />
+  <property name="libs" location="lib" />
+  <property name="className" value="world"/>
+  <path id="class.path">
+  	<pathelement location="org.eclipse.core.contenttype_3.5.0.v20150421-2214.jar" />
+  	<pathelement location="org.eclipse.core.jobs_3.7.0.v20150330-2103.jar" />
+  	<pathelement location="org.eclipse.core.resources_3.10.0.v20150423-0755.jar" />
+  	<pathelement location="org.eclipse.core.runtime_3.11.0.v20150405-1723.jar" />
+  	<pathelement location="org.eclipse.equinox.common_3.7.0.v20150402-1709.jar" />
+  	<pathelement location="org.eclipse.equinox.preferences_3.5.300.v20150408-1437.jar" />
+  		<pathelement location="org.eclipse.equinox.registry_3.6.0.v20150318-1503.jar" />
+  		<pathelement location="org.eclipse.jdt.core_3.11.2.v20160128-0629.jar" />
+  		<pathelement location="org.eclipse.osgi_3.10.100.v20150529-1857.jar" />
+      <pathelement location="build\classes" />
+  </path>
+
+ <target name="compile">
+ 	<mkdir dir="build\classes"/>
+    <javac classpathref="class.path" srcdir="${src}" destdir="build\classes"/>
+  </target> 
+
+  <target name="jar"  depends="compile">
+       <mkdir dir="build\jar"/>
+    <jar destfile="./jar/Class.jar" basedir="build\classes">
+        <manifest>
+            <attribute name="Main-Class" value="it.polito.parser.Parser"/>
+    </manifest>
+        </jar>
+    </target>
+
+    <target name="run"  depends="jar">
+    	<echo message="Creating class: Antispam"/>
+		    	<java classname="it.polito.parser.Parser" failonerror="true" fork="yes">
+		    		<arg value="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src\test\definition\Antispam.java"/>
+		    		<classpath>
+		    			<path refid="class.path" />
+		    		</classpath>
+		    	</java>
+    	<echo message="Creating class: EndHost"/>
+		    	<java classname="it.polito.parser.Parser" failonerror="true" fork="yes">
+		    	    <arg value="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src\test\definition\EndHost.java"/>
+		    	    <classpath>
+		    	    	<path refid="class.path" />
+		    	    </classpath>
+		    	</java>
+    	<echo message="Creating class: Firewall"/>
+    	    	<java classname="it.polito.parser.Parser" failonerror="true" fork="yes">
+    	    		<arg value="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src\test\definition\Firewall.java"/>
+    	    		<classpath>
+    	    			<path refid="class.path" />
+    	    		</classpath>
+    	    	</java>
+    	<echo message="Creating class: IDS"/>
+    	    	<java classname="it.polito.parser.Parser" failonerror="true" fork="yes">
+    	    	    <arg value="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src\test\definition\IDS.java"/>
+    	    	    <classpath>
+    	    	    	<path refid="class.path" />
+    	    	    </classpath>
+    	    	</java>
+    	<echo message="Creating class: MailClient"/>
+    	    	<java classname="it.polito.parser.Parser" failonerror="true" fork="yes">
+    	    		<arg value="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src\test\definition\MailClient.java"/>
+    	    		<classpath>
+    	    			<path refid="class.path" />
+    	    		</classpath>
+    	    	</java>
+    	<echo message="Creating class: MailServer"/>
+    	    	<java classname="it.polito.parser.Parser" failonerror="true" fork="yes">
+    	    	    <arg value="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src\test\definition\MailServer.java"/>
+    	    	    <classpath>
+    	    	    	<path refid="class.path" />
+    	    	    </classpath>
+    	    	</java>
+    	<echo message="Creating class: NAT"/>
+    	    	<java classname="it.polito.parser.Parser" failonerror="true" fork="yes">
+    	    		<arg value="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src\test\definition\NAT.java"/>
+    	    		<classpath>
+    	    			<path refid="class.path" />
+    	    		</classpath>
+    	    	</java>
+    	<echo message="Creating class: WebCache"/>
+    	    	<java classname="it.polito.parser.Parser" failonerror="true" fork="yes">
+    	    	    <arg value="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src\test\definition\WebCache.java"/>
+    	    	    <classpath>
+    	    	    	<path refid="class.path" />
+    	    	    </classpath>
+    	    	</java>
+    	<echo message="Creating class: WebClient"/>
+    	    	<java classname="it.polito.parser.Parser" failonerror="true" fork="yes">
+    	    		<arg value="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src\test\definition\WebClient.java"/>
+    	    		<classpath>
+    	    			<path refid="class.path" />
+    	    		</classpath>
+    	    	</java>
+    	<echo message="Creating class: WebServer"/>
+    	    	<java classname="it.polito.parser.Parser" failonerror="true" fork="yes">
+    	    	    <arg value="nf-modeling-master-87a891e14833de7ee71f941d0532284571489bdc\src\test\definition\WebServer.java"/>
+    	    	    <classpath>
+    	    	    	<path refid="class.path" />
+    	    	    </classpath>
+    	    	</java>
+    	
+    </target>
+
+</project>

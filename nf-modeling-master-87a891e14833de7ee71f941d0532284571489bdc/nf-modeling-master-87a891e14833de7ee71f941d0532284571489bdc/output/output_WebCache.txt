@@ -1,0 +1,43 @@
+Reading VNF model...
+Class name -> WebCache
+Found method -> onReceivedPacket
+	Found parameter -> packet
+	Body -> 1379 bytes
+	Body start position = 769
+	Found marker annotation -> Override
+	Parsing model...
+	*****Found action FORWARD [SAME_INTERFACE] (with 1 conditions leading to it) at line 38. Reached nesting level 1
+		Condition #1 (IF): packet.getField(PacketField.PROTOCOL) == Constants.HTTP_REQUEST_PROTOCOL && state.matchPacket(p1,Type.RECEIVED)
+
+		Rules for the outgoing packet:
+			packet.PacketField.IP_SRC	= packet.getField(PacketField.IP_DST)
+			packet.PacketField.IP_DST	= packet.getField(PacketField.IP_SRC)
+			packet.PacketField.PROTOCOL	= Constants.HTTP_RESPONSE_PROTOCOL
+		The remaining fields are unchanged
+
+	*****Found action FORWARD [UPSTREAM] (with 1 conditions leading to it) at line 45. Reached nesting level 1
+		Previous IF-THEN-ELSE #1 packet.getField(PacketField.PROTOCOL) == Constants.HTTP_REQUEST_PROTOCOL && state.matchPacket(p1,Type.RECEIVED) (IF has RETURN=true) (ELSE has RETURN=false)
+		Condition #1 (IF): packet.getField(PacketField.PROTOCOL) == Constants.HTTP_REQUEST_PROTOCOL && !state.matchPacket(p1,Type.RECEIVED)
+
+		Rules for the outgoing packet:
+			packet.PacketField.IP_SRC	= packet.getField(PacketField.IP_DST)
+			packet.PacketField.IP_DST	= packet.getField(PacketField.IP_SRC)
+			packet.PacketField.PROTOCOL	= Constants.HTTP_RESPONSE_PROTOCOL
+		The remaining fields are unchanged
+
+	*****Found action FORWARD [UPSTREAM] (with 1 conditions leading to it) at line 56. Reached nesting level 1
+		Previous IF-THEN-ELSE #1 packet.getField(PacketField.PROTOCOL) == Constants.HTTP_REQUEST_PROTOCOL && state.matchPacket(p1,Type.RECEIVED) (IF has RETURN=true) (ELSE has RETURN=false)
+		Previous IF-THEN-ELSE #2 packet.getField(PacketField.PROTOCOL) == Constants.HTTP_REQUEST_PROTOCOL && !state.matchPacket(p1,Type.RECEIVED) (IF has RETURN=true) (ELSE has RETURN=false)
+		Condition #1 (IF): packet.getField(PacketField.PROTOCOL) == Constants.HTTP_RESPONSE_PROTOCOL
+
+		Rules for the outgoing packet:
+			packet.PacketField.IP_SRC	= packet.getField(PacketField.IP_DST)
+			packet.PacketField.IP_DST	= packet.getField(PacketField.IP_SRC)
+			packet.PacketField.PROTOCOL	= Constants.HTTP_RESPONSE_PROTOCOL
+		The remaining fields are unchanged
+
+	Skipped 1 DROP actions.
+
+	Parsing done!
+
+!All Done!

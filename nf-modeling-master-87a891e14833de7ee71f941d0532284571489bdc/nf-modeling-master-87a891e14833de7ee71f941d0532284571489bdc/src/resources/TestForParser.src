@@ -1,0 +1,61 @@
+package resources;
+
+import java.util.Set;
+/* Test comment */
+
+import dnsFilter.DnsFilterMonoliticVersionActivator;
+import annotations.TestAnnotation;
+import applib.DNS;
+import applib.DnsQuestion;
+import frog.export.log.Levels;
+import frog.export.packetDispatcher.Application_exit_status;
+import stats.QueryCache;
+import stats.QueryInfo;
+import util.Logger;
+import frog.export.packetDispatcher.*;
+
+public class Custom {
+	
+	public Application_exit_status OnReceivedPacket(byte[] packet) {
+		Logger.log(Levels.PEX_DEBUG, MODULE_NAME,"handle packet: analyzing dns questions");
+		/* Test comment */
+		if (question.getDomainType() == DNS.TYPE_A || question.getDomainType() == DNS.TYPE_AAAA) {
+			Logger.log(Levels.PEX_DEBUG, MODULE_NAME, "queried domain " + question.getDomain() + " type A or AAAA");
+
+			if (this.blacklist.contains(question.getDomain())) {
+				Logger.log(Levels.PEX_DEBUG, MODULE_NAME, "queried domain " + question.getDomain() + " is in blacklist");
+				/* Test comment */
+				Logger.log(Levels.PEX_DEBUG, MODULE_NAME, "Blocked request for " + question.getDomain());
+
+				QueryCache.putQuery(question.getDomain(), new QueryInfo(question.getDomain(), true));
+				/* Test comment */
+				if (!privileges.canDropPacket()) {
+					Logger.log(Levels.PEX_WARNING, MODULE_NAME, "I'm going to drop a packet, but I don't have privileges!");
+					return Application_exit_status.DROP;
+				}
+				if(1 == 2)
+				{
+					if(2 == 4)
+					{
+						int ciao;
+					}
+					else
+					{
+						int prova;
+					}
+				}
+				if(a==b)
+				{
+					int i=0;
+				}
+				else
+				{
+					return Application_exit_status.DROP;
+				}
+				if(c==d)
+					return Application_exit_status.DROP;
+			}
+			return Application_exit_status.DROP;
+		}
+	}
+}
