@@ -1,6 +1,7 @@
 package it.polito.parser;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
@@ -42,7 +43,8 @@ public class Parser {
 		char[] source = null;
 		try{
 			/* Load the source file */
-			reader = new BufferedReader(new InputStreamReader(Parser.class.getResourceAsStream(fileName)));
+//			reader = new BufferedReader(new InputStreamReader(Parser.class.getResourceAsStream(fileName)));
+			reader = new BufferedReader(new InputStreamReader( new FileInputStream(fileName)));
 			String line = null;
 			String classCode = "";
 			while(true)
