@@ -21,7 +21,13 @@ public class Packet {
 	public static final String HTTP_REQUEST = "HTTP_REQ";
 	public static final String HTTP_RESPONSE = "HTTP_RESP";
 	public static final String POP3_REQUEST = "POP3_REQ";
-	public static final String POP3_RESPONSE = "POP3_RESP";
+	public static final String POP3_RESPONSE = "POP3_RESP";  // if app_protocol=pop3_resp && l7data contains specified keyword, must DROP the packet
+	public static final String DNS_REQUEST = "DNS_REQ";
+	public static final String DNS_RESPONSE = "DNS_RESP";
+	
+	public static final String L2_TCP = "TCP";
+	public static final String L2_UDP = "UDP";
+	
 	
 	private Map<PacketField, String> fields;
 	
