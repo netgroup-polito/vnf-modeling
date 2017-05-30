@@ -23,7 +23,7 @@ public class CDN extends NetworkFunction {
 		
 		this.cdnTable = new Table(3,0);  // serverName, srcIP, cacheIP
 		this.cdnTable.setTypes(Table.TableTypes.Generic, Table.TableTypes.Ip,Table.TableTypes.Ip);
-		this.cdnTable.setDataDriven();
+		
 	}
 	
 	@Override
@@ -44,7 +44,7 @@ public class CDN extends NetworkFunction {
 						p.setField(PacketField.PORT_SRC, packet.getField(PacketField.PORT_DST));
 						p.setField(PacketField.APPLICATION_PROTOCOL, Packet.DNS_RESPONSE);
 						p.setField(PacketField.L7DATA, (String)entry.getValue(2));   // SuperDNS returns cacheIP
-						return new RoutingResult(Action.FORWARD, p, internalInterface); // receive http_request from internal network, reply from specific internal interface
+						return new RoutingResult(Action.FORWARD, p, internalInterface); 
 						
 					} catch (CloneNotSupportedException e) {
 						e.printStackTrace();
