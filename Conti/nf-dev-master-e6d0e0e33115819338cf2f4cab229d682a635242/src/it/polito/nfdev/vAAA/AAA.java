@@ -24,7 +24,7 @@ public class AAA extends NetworkFunction {
 		super(new ArrayList<Interface>());
 		
 		this.userTable = new Table(3,0);   // (UserName, Password, ByteCount(Initial value = 0 ))
-		this.userTable.setTypes(Table.TableTypes.Generic , Table.TableTypes.Generic, Table.TableTypes.Generic);
+		this.userTable.setTypes(Table.TableTypes.ApplicationData , Table.TableTypes.ApplicationData, Table.TableTypes.ApplicationData);
 		
 	}
 
@@ -38,7 +38,7 @@ public class AAA extends NetworkFunction {
 			e.printStackTrace();
 		}
 		
-		if(packet.equalsField(PacketField.TRANSPORT_PROTOCOL, Packet.L2_UDP) && packet.equalsField(PacketField.PORT_DST, "1812")){ 
+		if(packet.equalsField(PacketField.PORT_DST, "1812")){ 
 			 	// if it's a Authentication Packet from NAS Client, CZ authentication port is 1812
 			String Uname_Pwd = packet.getField(PacketField.L7DATA);
 			String[] parts = Uname_Pwd.split(":");   // assume L7DATA is 'Username:Password'
@@ -60,13 +60,13 @@ public class AAA extends NetworkFunction {
 		
 			return new RoutingResult(Action.FORWARD,p,iface);
 		}
-		else if(packet.equalsField(PacketField.TRANSPORT_PROTOCOL, Packet.L2_UDP) && packet.equalsField(PacketField.PORT_DST, "1813")){
+		else if(packet.equalsField(PacketField.PORT_DST, "1813")){
 					// if it's a Accounting Packet from NAS Client , CZ accounting port is 1813
 			
 			String Uname_Pwd = packet.getField(PacketField.L7DATA);
 			String[] parts = Uname_Pwd.split(":");   // assume L7DATA is 'Username:	Periodic number of Bytes'
 			String userName = parts[0];
-			Long byteCount = Long.parseLong(parts[1]);
+			Integer byteCount = Integer.parseInt(parts[1]);
 			
 			TableEntry entry = userTable.matchEntry(userName);
 			
@@ -74,11 +74,11 @@ public class AAA extends NetworkFunction {
 				return new RoutingResult(Action.DROP, null, null);
 			}
 			else{		// Update the total number of Bytes
-				Long totalBytes = byteCount + (Long)entry.getValue(2);
+				int totalBytes = byteCount + Integer.parseInt((String)entry.getValue(2));
 				TableEntry e = new NatTableEntry(3);
-				e.setValue(0, entry.getValue(0));  // Username
-				e.setValue(1, entry.getValue(1));  // Password
-				e.setValue(2, totalBytes);		   // ByteCount
+				e.setValue(0, (String)entry.getValue(0));  // Username
+				e.setValue(1, (String)entry.getValue(1));  // Password
+				e.setValue(2, (new Integer(totalBytes)).toString());		   // ByteCount
 				userTable.removeEntry(entry);
 				userTable.storeEntry(e);
 				
@@ -97,7 +97,7 @@ public class AAA extends NetworkFunction {
 	}
 	
 	
-	public boolean addAclRule(String username, String password){
+	public boolean addUserInfo(String username, String password){
 		
 		TableEntry e = userTable.matchEntry(username.trim());
 		
@@ -107,12 +107,12 @@ public class AAA extends NetworkFunction {
 		TableEntry entry = new TableEntry(3);
 		entry.setValue(0, username.trim());
 		entry.setValue(1, password.trim());
-		entry.setValue(3, new Long(0));
+		entry.setValue(2, new String("0"));
 	
 		return userTable.storeEntry(entry);
 	}
 	
-	public boolean removeAclRule(String username, String password){
+	public boolean removeUserInfo(String username, String password){
 		TableEntry entry  = userTable.matchEntry(username,password);
 		
 		return userTable.removeEntry(entry);  // if return false, --> entry is empty
