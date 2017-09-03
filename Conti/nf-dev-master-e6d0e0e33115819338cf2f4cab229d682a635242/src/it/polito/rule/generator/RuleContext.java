@@ -15,6 +15,8 @@ import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 
 import it.polito.nfdev.jaxb.*;
+import it.polito.nfdev.lib.Packet;
+import it.polito.nfdev.lib.Packet.PacketField;
 import it.polito.parser.Constants;
 import it.polito.parser.Variable;
 import it.polito.parser.context.ReturnSnapshot;
@@ -61,7 +63,7 @@ public class RuleContext {
 	
 	public void setDefaultRule(String methodName){
 		switch(methodName){
-			case Constants.MAIN_NF_METHOD:
+			case Constants.MAIN_NF_METHOD:				//------------------------------------------
 				
 				LUNode dest = factory.createLUNode();
 				LUNode source = factory.createLUNode();
@@ -89,7 +91,7 @@ public class RuleContext {
 				implies.setConsequentExpression(factory.createExpressionObject());
 				
 				
-				if(returnSnapshot.getInterfaceName().compareTo(Constants.INTERNAL_INTERFACE)==0){
+				if(returnSnapshot.getInterfaceName().compareTo(Constants.INTERNAL_INTERFACE)==0){		//------------------in case normal "forwardInterface ?????"
 					LOAnd and = factory.createLOAnd();				
 					LFIsInternal isInternal = isInternalRule(packet.getName(), Constants.IP_DESTINATION);
 					ExpressionObject temp = factory.createExpressionObject();		
@@ -124,7 +126,7 @@ public class RuleContext {
 				LUPacket p1 = factory.createLUPacket();
 				LUTime t1 = factory.createLUTime();
 				
-				n1.setName("n_"+ ++nodeCounter);
+				n1.setName("n_"+ ++nodeCounter);		//--> p1
 				p1.setName("p_"+ ++packetCounter);
 				t1.setName("t_"+ ++timeCounter);
 				
@@ -152,10 +154,10 @@ public class RuleContext {
 				
 				LOAnd and = factory.createLOAnd();
 				ExpressionObject temp = factory.createExpressionObject();
-				temp.setRecv(recv);
+				temp.setRecv(recv);	// 'recv'
 				and.getExpression().add(temp);
 				temp = factory.createExpressionObject();
-				temp.setLessThan(less);
+				temp.setLessThan(less);	// 'time less than'
 				and.getExpression().add(temp);
 				
 				exist.getExpression().setAnd(and);
@@ -291,7 +293,7 @@ public class RuleContext {
 		return entryPoint_p1;
 	}
 	
-	public boolean generateRuleForExitingPacket(String packetField, String value){
+	public boolean generateRuleForExitingPacket(String packetField, String value){   //-->packet_in.setField(PacketField.IP_SRC, natIp);
 		
 		if(checkPacketField(packetField) && containsLogicalUnit("p_0")){
 			LOEquals equal = factory.createLOEquals();
@@ -317,7 +319,7 @@ public class RuleContext {
 	public boolean generateRuleForExitingPacket(String packetField, MethodInvocation node){
 		
 		if(checkPacketField(packetField) && containsLogicalUnit("p_0")){
-			String methodName = node.getName().getFullyQualifiedName();
+			String methodName = node.getName().getFullyQualifiedName();		//-->p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
 			String name;
 			StringBuilder builder = new StringBuilder();
 			
@@ -329,13 +331,14 @@ public class RuleContext {
 				}
 			});
 						
-			name = builder.toString();
+			name = builder.toString();		//-->name='packet'
+			
 			if(methodName.compareTo(Constants.GET_FIELD_METHOD)==0 && name.compareTo(Constants.PACKET_PARAMETER)==0){
 				
 				QualifiedName field = (QualifiedName)node.arguments().get(0);
 				String fieldName = field.getName().getFullyQualifiedName();
 				
-				if(checkPacketField(fieldName)){
+				if(checkPacketField(fieldName)){	//-->IP_DST
 					LOEquals equal = factory.createLOEquals();
 					equal.setLeftExpression(factory.createExpressionObject());
 					equal.setRightExpression(factory.createExpressionObject());
@@ -377,7 +380,7 @@ public class RuleContext {
 					});
 					int index = Integer.parseInt(builder.toString());
 					List<TableEntryContext> list = returnSnapshot.getMethodContext().getEntryValues();
-					String value = list.get(index).getValue();
+					String value = list.get(index).getValue();   //--> value is a packet field
 					if(checkPacketField(value) && containsLogicalUnit("p_0")){
 						LOEquals equal = factory.createLOEquals();
 						equal.setLeftExpression(factory.createExpressionObject());
@@ -415,10 +418,10 @@ public class RuleContext {
 						return true;
 					}
 					else
-						return generateRuleForExitingPacket(packetField, value);
+						return generateRuleForExitingPacket(packetField, value);		
 				}
 				
-			}else{
+			}else{		//--> when it is used
 		
 				@SuppressWarnings("unchecked")
 				List<Expression> list = (List<Expression>)node.arguments();
@@ -436,7 +439,7 @@ public class RuleContext {
 		
 		return false;
 	}
-	
+								//--> iface.isInternal() or equalsField()
 	public ExpressionObject generateRuleForMethod(String variableName,MethodInvocation method){
 		
 		if(checkVariable(variableName).compareTo(Constants.NONE)==0)
@@ -467,15 +470,20 @@ public class RuleContext {
 			String fieldValue = field.getName().getFullyQualifiedName();
 			StringBuilder builder = new StringBuilder();			
 			
-			ASTNode node = (ASTNode)method.arguments().get(1);
+			ASTNode node = (ASTNode)method.arguments().get(1);	//-->Packet.POP3_REQUEST
 			node.accept(new ASTVisitor() {
 				
 				public boolean visit(QualifiedName node){
 					builder.append(node.getName().getFullyQualifiedName());
 					return false;
 				}
+				
+				public boolean visit(SimpleName node){
+					builder.append(node.getFullyQualifiedName());
+					return false;
+				}
 			});
-			String value = builder.toString();
+			String value = builder.toString();		//-->POP3_REQUEST
 			
 			LOEquals equals = factory.createLOEquals();
 			equals.setLeftExpression(factory.createExpressionObject());
@@ -496,7 +504,7 @@ public class RuleContext {
 		
 		return null;
 	}
-	
+														//-->example: entry  !=null
 	public ExpressionObject generateRuleForVariable(String variableName, Operator operator, int startPosition){
 		boolean negated = false;
 		List<Variable> vars = getVariable(variableName);
@@ -684,7 +692,7 @@ public class RuleContext {
 					//setLastExpression(end);
 					entryPoint_p2 = and;
 					return end;
-				}else{
+				}else{		//--> !isDataDriven
 				
 					if(operator.equals(Operator.EQUALS))	
 						negated=true;
