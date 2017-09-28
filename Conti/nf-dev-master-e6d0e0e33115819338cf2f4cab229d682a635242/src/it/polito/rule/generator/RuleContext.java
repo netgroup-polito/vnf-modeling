@@ -497,7 +497,49 @@ public class RuleContext {
 			
 			exp.setEqual(equals);
 			return exp;
-			
+		
+		case Constants.ENTRY_GETTER:
+			@SuppressWarnings("unchecked") 
+			List<Expression> args = (List<Expression>)method.arguments();
+			builder = new StringBuilder();
+				if(args.size()==1){
+					builder.delete(0, builder.length());
+					
+					Expression expression = args.get(0);
+					expression.accept(new ASTVisitor() {
+						
+						public boolean visit(NumberLiteral node){
+							builder.append(node.getToken());
+							return false;
+						}
+					});
+					int index = Integer.parseInt(builder.toString());
+					List<TableEntryContext> list = returnSnapshot.getMethodContext().getEntryValues();
+
+				    value=null;
+				    for(TableEntryContext tnc: list){						
+						if(tnc.getPosition()==index){		    
+				            value = tnc.getValue(); 
+				            if(!checkPacketField(value) && containsLogicalUnit("p_2")){
+				            	LOEquals equal = factory.createLOEquals();
+				            	equal.setLeftExpression(factory.createExpressionObject());
+				            	equal.setRightExpression(factory.createExpressionObject());
+						
+				            	fieldOf = factory.createLFFieldOf();
+				            	fieldOf.setUnit("p_2");
+				            	fieldOf.setField(Constants.L7DATA);
+						
+								equal.getLeftExpression().setFieldOf(fieldOf);
+								equal.getRightExpression().setParam(value);;
+								
+								exp = factory.createExpressionObject();
+								exp.setEqual(equal);
+								setExpressionForPacket(exp,"p_2");
+				            }
+						}
+					break;
+				    }
+				}	
 		default:
 			break;
 		}
