@@ -498,7 +498,7 @@ public class RuleContext {
 			exp.setEqual(equals);
 			return exp;
 		
-		case Constants.ENTRY_GETTER:
+	/*	case Constants.ENTRY_GETTER:
 			@SuppressWarnings("unchecked") 
 			List<Expression> args = (List<Expression>)method.arguments();
 			builder = new StringBuilder();
@@ -539,7 +539,7 @@ public class RuleContext {
 						}
 					break;
 				    }
-				}	
+				}	*/
 		default:
 			break;
 		}
@@ -773,6 +773,7 @@ public class RuleContext {
 				}
 								
 				return null;
+			// case Constants.STRING_TYPE:
 			default:
 				return null;
 		}
