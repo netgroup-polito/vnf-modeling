@@ -70,7 +70,7 @@ public class Parser {
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setResolveBindings(true);
 		parser.setBindingsRecovery(true);
-		parser.setUnitName("Nat.src");
+		//parser.setUnitName("Nat.src");
 		
 		parser.setSource(source);
 		
@@ -86,7 +86,8 @@ public class Parser {
 		compilationUnit.accept(v1);
 			
 		RuleGenerator ruler = new RuleGenerator(classContext.getClassName(),true);
-		MethodContext methodContext = classContext.getMethodContext(Constants.MAIN_NF_METHOD);
+	// specify that just analyze "onReceivedPacket()" method
+		MethodContext methodContext = classContext.getMethodContext(Constants.MAIN_NF_METHOD);		
 		if(methodContext!=null){
 			
 			for(ReturnSnapshot returnSnapshot : methodContext.getReturnSnapshots()){
@@ -95,9 +96,21 @@ public class Parser {
 				ruler.generateRule();
 				
 			}
-			ruler.saveRule();
+		//	ruler.saveRule();
 		}
-	
+		methodContext = classContext.getMethodContext(Constants.DEFINE_SENDING_PACKET_METHOD);		
+		if(methodContext!=null){
+			
+			for(ReturnSnapshot returnSnapshot : methodContext.getReturnSnapshots()){
+				
+				ruler.setSnapshot(returnSnapshot);
+				ruler.generateRule();
+				
+			}
+		//	ruler.saveRule();
+		}
+		ruler.saveRule();
+		
 		ClassGenerator generator = new ClassGenerator(classContext.getClassName());
 		generator.startGeneration();
 		System.out.println("!All Done!");

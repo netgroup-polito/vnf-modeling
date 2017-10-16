@@ -4,6 +4,7 @@ public class Constants {
 	
 	//Methods
 	public static final String MAIN_NF_METHOD = "onReceivedPacket";
+	public static final String DEFINE_SENDING_PACKET_METHOD = "defineSendingPacket";
 	public static final String ENTRY_SETTER = "setValue";
 	public static final String ENTRY_GETTER = "getValue";
 	public static final String SET_FIELD_METHOD = "setField";
@@ -13,6 +14,7 @@ public class Constants {
 	public static final String SEND_METHOD_NAME = "sendPacket";
 	public static final String STORE_ENTRY_METHOD_NAME = "storeEntry";
 	public static final String DATA_DRIVEN = "setDataDriven";
+	public static final String INDIRECT_NF = "setIndirectNF";
 	public static final String IS_INTERNAL_METHOD = "isInternal";
 	public static final String EQUALS_FIELD_METHOD = "equalsField";
 	public static final String SET_TYPES = "setTypes";
@@ -20,10 +22,12 @@ public class Constants {
 	//Function' parameters
 	public static final String INTERNAL_INTERFACE = "internalInterface";
 	public static final String EXTERNAL_INTERFACE = "externalInterface";
+	public static final String INITIAL_FORWARDING_INTERFACE = "initialForwardingInterface";
 	public static final String INTERFACE_PARAMETER = "iface";
 	public static final String PACKET_PARAMETER = "packet";
 	
 	//Types
+	public static final String STRING_TYPE = "String";
 	public static final String TABLE_ENTRY_TYPE = "TableEntry";
 	public static final String PACKET_TYPE = "Packet";
 	public static final String INTERFACE_TYPE = "Interface";
