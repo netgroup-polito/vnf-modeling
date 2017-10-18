@@ -20,6 +20,7 @@ public class ReturnSnapshot {
 	private int nestingLevel;
 	
 	private boolean initialPacket;
+	private boolean indirectSnapshot = false;
 	
 
 	public ReturnSnapshot(MethodContext methodContex,
@@ -50,6 +51,14 @@ public class ReturnSnapshot {
 
 	public boolean isInitialPacket(){
 		return initialPacket;
+	}
+	
+	public boolean isIndirectSnapshot(){
+		return indirectSnapshot;
+	}
+	
+	public void setIndirectSnapshot(){
+		indirectSnapshot = true;
 	}
 
 	public MethodContext getMethodContext() {

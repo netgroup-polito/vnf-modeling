@@ -37,10 +37,10 @@ public class ExpressionVisitor extends ASTVisitor {
 			case Constants.DATA_DRIVEN:
 				context.getMethodContext().getContext().setDataDriven(true);
 				break;
-			case Constants.INDIRECT_NF:
+		/*	case Constants.INDIRECT_NF:
 				context.getMethodContext().getContext().setIndirectNF(true);
 				break;
-				
+		*/		
 			case Constants.SET_TYPES:
 				
 				Context ctx = context.getMethodContext().getContext();

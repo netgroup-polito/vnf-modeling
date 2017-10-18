@@ -12,15 +12,17 @@ import it.polito.nfdev.lib.TableEntry;
 import it.polito.nfdev.verification.Verifier;
 import it.polito.nfdev.webcache.*;
 import it.polito.nfdev.verification.Table;
+import it.polito.nfdev.nat.PortPool;
 
 public class CDNcache extends NetworkFunction {
 
-	public String webServer_Ip;
+	private String webServer_Ip;
 	private String client_Ip;
+	private PortPool portPool;
 	private Interface internalFace;
 	private Interface externalFace;
 	
-	@Table( fields = {"URL", "CONTENT", "EXTERNAL_IP"} )
+	@Table( fields = {"URL", "CONTENT"} )
 	private CacheTable cdnCacheTable;
 	
 	public CDNcache(List<Interface> interfaces,String webServer_Ip) {
@@ -41,8 +43,8 @@ public class CDNcache extends NetworkFunction {
 		assert internalFace.getId() != externalFace.getId();
 		
 		this.webServer_Ip=webServer_Ip;
-		
-		this.cdnCacheTable = new CacheTable(3,0);  // URL, CONTENT, WebSite_IP
+		this.portPool = new PortPool(10000, 1024);
+		this.cdnCacheTable = new CacheTable(2,0);  // URL, CONTENT
 		this.cdnCacheTable.setDataDriven();
 		
 	}
@@ -60,7 +62,7 @@ public class CDNcache extends NetworkFunction {
 		if(iface.isInternal())
 		{
 			if(packet.equalsField(PacketField.APPLICATION_PROTOCOL,Packet.HTTP_REQUEST)){
-				TableEntry entry = cdnCacheTable.matchEntry(packet.getField(PacketField.L7DATA), Verifier.ANY_VALUE, Verifier.ANY_VALUE);				
+				TableEntry entry = cdnCacheTable.matchEntry(packet.getField(PacketField.L7DATA));				
 				
 				if(entry != null&&entry.getValue(1)!=null)   
 				{
@@ -73,16 +75,21 @@ public class CDNcache extends NetworkFunction {
 					return new RoutingResult(Action.FORWARD, p, internalInterface); 
 				
 				}
-				else if(entry != null && ((String)entry.getValue(2)).equals(webServer_Ip))
+				else 
 				{
 					client_Ip = packet.getField(PacketField.IP_SRC);
 					
-					p.setField(PacketField.IP_DST, webServer_Ip);
+					Integer new_port = portPool.getAvailablePort();
+					if (new_port == null)
+						return new RoutingResult(Action.DROP, null, null);
+					
 					p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
+					p.setField(PacketField.PORT_SRC, String.valueOf(new_port));
+					p.setField(PacketField.IP_DST, webServer_Ip);
+					p.setField(PacketField.PORT_DST, Packet.HTTP_PORT_80);
+					
 					return new RoutingResult(Action.FORWARD, p, externalInterface); 
 				}
-				else
-					return new RoutingResult(Action.DROP, null, null);
 			}
 			return new RoutingResult(Action.DROP, null, null);   
 			
@@ -91,13 +98,12 @@ public class CDNcache extends NetworkFunction {
 		{		
 			if(packet.equalsField(PacketField.APPLICATION_PROTOCOL,Packet.HTTP_RESPONSE)){
 				CacheTableEntry cacheEntry = (CacheTableEntry)cdnCacheTable.matchEntry(packet.getField(PacketField.L7DATA), Verifier.ANY_VALUE, Verifier.ANY_VALUE);
-				if(cacheEntry!=null)
+				if(cacheEntry!=null){
 				try{
 					Content content = new Content(new URL(packet.getField(PacketField.L7DATA)));
 					CacheTableEntry newEntry = new CacheTableEntry(3);
 					newEntry.setValue(0, packet.getField(PacketField.L7DATA));
 					newEntry.setValue(1, content);
-					newEntry.setValue(2, packet.getField(PacketField.IP_SRC));
 					cdnCacheTable.removeEntry(cacheEntry);
 					cdnCacheTable.storeEntry(newEntry);
 					p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
@@ -107,6 +113,7 @@ public class CDNcache extends NetworkFunction {
 				} catch(Exception ex)
 				{
 					ex.printStackTrace();
+				}
 				}
 			}
 			return new RoutingResult(Action.DROP, null, null);

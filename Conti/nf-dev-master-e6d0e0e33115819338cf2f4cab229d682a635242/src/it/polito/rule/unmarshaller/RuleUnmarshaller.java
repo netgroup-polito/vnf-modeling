@@ -82,6 +82,10 @@ class RuleUnmarshaller {
 		constants.add("HTTP_RESPONSE");
 		constants.add("POP3_REQUEST");
 		constants.add("POP3_RESPONSE");
+		constants.add("DNS_REQUEST");
+		constants.add("DNS_RESPONSE");
+		constants.add("DNS_PORT_53");
+		constants.add("HTTP_PORT_80");
 		
 		JAXBContext context;
 		try {

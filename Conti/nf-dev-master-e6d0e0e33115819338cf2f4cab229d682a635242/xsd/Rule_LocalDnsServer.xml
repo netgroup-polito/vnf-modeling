@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Result xmlns="http://www.example.org/LogicalExpressions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/LogicalExpressions LogicalExpressions.xsd">
-    <TableSize>0</TableSize>
+    <TableSize>2</TableSize>
     <DataDriven>true</DataDriven>
     <IndirectNF>false</IndirectNF>
+    <TableFields>Generic</TableFields>
+    <TableFields>Ip</TableFields>
     <Node Name="n_0"/>
     <Node Name="n_1"/>
     <Node Name="n_2"/>
-    <Node Name="n_CDNcache"/>
+    <Node Name="n_LocalDnsServer"/>
     <Packet Name="p_0"/>
     <Packet Name="p_1"/>
     <Packet Name="p_2"/>
@@ -19,7 +21,7 @@
                 <And>
                     <Expression>
                         <Send>
-                            <Source>n_CDNcache</Source>
+                            <Source>n_LocalDnsServer</Source>
                             <Destination>n_0</Destination>
                             <Packet_out>p_0</Packet_out>
                             <Time_out>t_0</Time_out>
@@ -45,7 +47,7 @@
                             <Expression>
 <Recv>
     <Source>n_1</Source>
-    <Destination>n_CDNcache</Destination>
+    <Destination>n_LocalDnsServer</Destination>
     <Packet_in>p_1</Packet_in>
     <Time_in>t_1</Time_in>
 </Recv>
@@ -77,7 +79,7 @@
         </FieldOf>
     </LeftExpression>
     <RightExpression>
-        <Param>HTTP_REQUEST</Param>
+        <Param>DNS_REQUEST</Param>
     </RightExpression>
 </Equal>
                             </Expression>
@@ -91,7 +93,7 @@
             <Expression>
                 <Recv>
                     <Source>n_2</Source>
-                    <Destination>n_CDNcache</Destination>
+                    <Destination>n_LocalDnsServer</Destination>
                     <Packet_in>p_2</Packet_in>
                     <Time_in>t_2</Time_in>
                 </Recv>
@@ -127,10 +129,7 @@
                         </FieldOf>
                     </LeftExpression>
                     <RightExpression>
-                        <FieldOf>
-                            <Unit>p_2</Unit>
-                            <Field>L7DATA</Field>
-                        </FieldOf>
+                        <Param>req_domain</Param>
                     </RightExpression>
                 </Equal>
             </Expression>
@@ -159,22 +158,6 @@
     <LeftExpression>
         <FieldOf>
             <Unit>p_0</Unit>
-            <Field>IP_DST</Field>
-        </FieldOf>
-    </LeftExpression>
-    <RightExpression>
-        <FieldOf>
-            <Unit>p_1</Unit>
-            <Field>IP_SRC</Field>
-        </FieldOf>
-    </RightExpression>
-</Equal>
-                            </Expression>
-                            <Expression>
-<Equal>
-    <LeftExpression>
-        <FieldOf>
-            <Unit>p_0</Unit>
             <Field>IP_SRC</Field>
         </FieldOf>
     </LeftExpression>
@@ -191,13 +174,13 @@
     <LeftExpression>
         <FieldOf>
             <Unit>p_0</Unit>
-            <Field>PORT_DST</Field>
+            <Field>PORT_SRC</Field>
         </FieldOf>
     </LeftExpression>
     <RightExpression>
         <FieldOf>
             <Unit>p_1</Unit>
-            <Field>PORT_SRC</Field>
+            <Field>PORT_DST</Field>
         </FieldOf>
     </RightExpression>
 </Equal>
@@ -207,13 +190,29 @@
     <LeftExpression>
         <FieldOf>
             <Unit>p_0</Unit>
-            <Field>PORT_SRC</Field>
+            <Field>IP_DST</Field>
         </FieldOf>
     </LeftExpression>
     <RightExpression>
         <FieldOf>
             <Unit>p_1</Unit>
+            <Field>IP_SRC</Field>
+        </FieldOf>
+    </RightExpression>
+</Equal>
+                            </Expression>
+                            <Expression>
+<Equal>
+    <LeftExpression>
+        <FieldOf>
+            <Unit>p_0</Unit>
             <Field>PORT_DST</Field>
+        </FieldOf>
+    </LeftExpression>
+    <RightExpression>
+        <FieldOf>
+            <Unit>p_1</Unit>
+            <Field>PORT_SRC</Field>
         </FieldOf>
     </RightExpression>
 </Equal>
@@ -227,7 +226,7 @@
         </FieldOf>
     </LeftExpression>
     <RightExpression>
-        <Param>HTTP_RESPONSE</Param>
+        <Param>DNS_RESPONSE</Param>
     </RightExpression>
 </Equal>
                             </Expression>
@@ -259,7 +258,7 @@
                 <And>
                     <Expression>
                         <Send>
-                            <Source>n_CDNcache</Source>
+                            <Source>n_LocalDnsServer</Source>
                             <Destination>n_0</Destination>
                             <Packet_out>p_0</Packet_out>
                             <Time_out>t_0</Time_out>
@@ -289,7 +288,7 @@
                             <Expression>
 <Recv>
     <Source>n_1</Source>
-    <Destination>n_CDNcache</Destination>
+    <Destination>n_LocalDnsServer</Destination>
     <Packet_in>p_1</Packet_in>
     <Time_in>t_1</Time_in>
 </Recv>
@@ -321,7 +320,7 @@
         </FieldOf>
     </LeftExpression>
     <RightExpression>
-        <Param>HTTP_REQUEST</Param>
+        <Param>DNS_REQUEST</Param>
     </RightExpression>
 </Equal>
                             </Expression>
@@ -337,7 +336,7 @@
                     <Expression>
                         <Recv>
                             <Source>n_2</Source>
-                            <Destination>n_CDNcache</Destination>
+                            <Destination>n_LocalDnsServer</Destination>
                             <Packet_in>p_2</Packet_in>
                             <Time_in>t_2</Time_in>
                         </Recv>
@@ -373,10 +372,7 @@
 </FieldOf>
                             </LeftExpression>
                             <RightExpression>
-<FieldOf>
-    <Unit>p_2</Unit>
-    <Field>L7DATA</Field>
-</FieldOf>
+<Param>req_domain</Param>
                             </RightExpression>
                         </Equal>
                     </Expression>
@@ -424,7 +420,7 @@
         </FieldOf>
     </LeftExpression>
     <RightExpression>
-        <Param>webServer_Ip</Param>
+        <Param>ip_GlobalBalancer</Param>
     </RightExpression>
 </Equal>
                             </Expression>
@@ -437,7 +433,7 @@
         </FieldOf>
     </LeftExpression>
     <RightExpression>
-        <Param>HTTP_PORT_80</Param>
+        <Param>DNS_PORT_53</Param>
     </RightExpression>
 </Equal>
                             </Expression>
@@ -501,7 +497,7 @@
                 <And>
                     <Expression>
                         <Send>
-                            <Source>n_CDNcache</Source>
+                            <Source>n_LocalDnsServer</Source>
                             <Destination>n_0</Destination>
                             <Packet_out>p_0</Packet_out>
                             <Time_out>t_0</Time_out>
@@ -527,7 +523,7 @@
                             <Expression>
 <Recv>
     <Source>n_1</Source>
-    <Destination>n_CDNcache</Destination>
+    <Destination>n_LocalDnsServer</Destination>
     <Packet_in>p_1</Packet_in>
     <Time_in>t_1</Time_in>
 </Recv>
@@ -563,7 +559,7 @@
         </FieldOf>
     </LeftExpression>
     <RightExpression>
-        <Param>HTTP_RESPONSE</Param>
+        <Param>DNS_RESPONSE</Param>
     </RightExpression>
 </Equal>
                             </Expression>
@@ -577,7 +573,7 @@
             <Expression>
                 <Recv>
                     <Source>n_2</Source>
-                    <Destination>n_CDNcache</Destination>
+                    <Destination>n_LocalDnsServer</Destination>
                     <Packet_in>p_2</Packet_in>
                     <Time_in>t_2</Time_in>
                 </Recv>

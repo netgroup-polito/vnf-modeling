@@ -25,6 +25,8 @@ public class Constants {
 	public static final String INITIAL_FORWARDING_INTERFACE = "initialForwardingInterface";
 	public static final String INTERFACE_PARAMETER = "iface";
 	public static final String PACKET_PARAMETER = "packet";
+	public static final String DNS_RESPONSE = "DNS_RESPONSE";   //used at line573 in RuleContext.java
+	public static final String HTTP_RESPONSE = "HTTP_RESPONSE";
 	
 	//Types
 	public static final String STRING_TYPE = "String";

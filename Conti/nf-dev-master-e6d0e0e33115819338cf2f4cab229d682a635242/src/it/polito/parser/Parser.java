@@ -86,7 +86,7 @@ public class Parser {
 		compilationUnit.accept(v1);
 			
 		RuleGenerator ruler = new RuleGenerator(classContext.getClassName(),true);
-	// specify that just analyze "onReceivedPacket()" method
+	// specify that analyze "onReceivedPacket()" method
 		MethodContext methodContext = classContext.getMethodContext(Constants.MAIN_NF_METHOD);		
 		if(methodContext!=null){
 			
@@ -98,6 +98,7 @@ public class Parser {
 			}
 		//	ruler.saveRule();
 		}
+	// specify that analyze "onReceivedPacket()" method
 		methodContext = classContext.getMethodContext(Constants.DEFINE_SENDING_PACKET_METHOD);		
 		if(methodContext!=null){
 			

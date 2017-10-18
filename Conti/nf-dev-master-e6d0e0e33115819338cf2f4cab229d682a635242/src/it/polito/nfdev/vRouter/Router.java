@@ -14,7 +14,7 @@ public class Router extends NetworkFunction {
 	public Router(List<Interface> interfaces) {
 		super(interfaces);
 	
-		this.routeTable = new Table(2,0); // dstIP, forwardInterface;   no consider the field 'nextHop' and 'hopCount',because related to arpTable(MAC) and shortest path
+		this.routeTable = new Table(2,0); // dstIP, forwardInterface;   no consider the fields 'nextHop' and 'hopCount',because related to ArpTable(MAC) and shortest path
 		this.routeTable.setTypes(Table.TableTypes.Ip,Table.TableTypes.Ip);
 	}
 
@@ -56,7 +56,7 @@ public class Router extends NetworkFunction {
 		return routeTable.storeEntry(entry);
 	}
 		
-	public boolean validInface(String inface){   // this Ip must belong to this router
+	public boolean validInface(String inface){   // When a router is created, it has some available interfaces
 		for(Interface iface : interfaces){
 			if(iface.IP_ADRESS.compareTo(inface)==0)
 				return true;
@@ -68,7 +68,7 @@ public class Router extends NetworkFunction {
 	public boolean removeRouteRule(String dstIp){
 		TableEntry entry  = routeTable.matchEntry(dstIp);
 		
-		return routeTable.removeEntry(entry);  // if return false, --> entry is empty
+		return routeTable.removeEntry(entry);  
 	}
 
 	public void clearRouteTable(){
