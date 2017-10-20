@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Result xmlns="http://www.example.org/LogicalExpressions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/LogicalExpressions LogicalExpressions.xsd">
-    <TableSize>2</TableSize>
+    <TableSize>1</TableSize>
     <DataDriven>false</DataDriven>
-    <TableFields>ApplicationData</TableFields>
     <TableFields>ApplicationData</TableFields>
     <Node Name="n_0"/>
     <Node Name="n_1"/>
@@ -58,6 +57,18 @@
         <Param>AUTHENTICATION_PORT_1812</Param>
     </RightExpression>
 </Equal>
+                            </Expression>
+                            <Expression>
+<Not>
+    <Expression>
+        <MatchEntry>
+            <Value>
+                <Unit>p_1</Unit>
+                <Field>L7DATA</Field>
+            </Value>
+        </MatchEntry>
+    </Expression>
+</Not>
                             </Expression>
                             <Expression>
 <Equal>
@@ -221,6 +232,14 @@
         <Param>AUTHENTICATION_PORT_1812</Param>
     </RightExpression>
 </Equal>
+                            </Expression>
+                            <Expression>
+<MatchEntry>
+    <Value>
+        <Unit>p_1</Unit>
+        <Field>L7DATA</Field>
+    </Value>
+</MatchEntry>
                             </Expression>
                             <Expression>
 <Equal>
@@ -401,6 +420,14 @@
         <Param>ACCOUNTING_PORT_1813</Param>
     </RightExpression>
 </Equal>
+                            </Expression>
+                            <Expression>
+<MatchEntry>
+    <Value>
+        <Unit>p_1</Unit>
+        <Field>L7DATA</Field>
+    </Value>
+</MatchEntry>
                             </Expression>
                             <Expression>
 <Equal>

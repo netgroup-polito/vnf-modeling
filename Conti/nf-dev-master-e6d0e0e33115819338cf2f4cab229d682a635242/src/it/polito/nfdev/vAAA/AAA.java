@@ -26,8 +26,8 @@ public class AAA extends NetworkFunction {
 	public AAA() {
 		super(new ArrayList<Interface>());
 		
-		this.userTable = new Table(2,0);   // (UserName, Password, ByteCount(Initial value = 0 ))
-		this.userTable.setTypes(Table.TableTypes.ApplicationData , Table.TableTypes.ApplicationData);
+		this.userTable = new Table(1,0);   // (authentication data including userName and passWord)
+		this.userTable.setTypes(Table.TableTypes.ApplicationData);
 		
 	}
 
@@ -43,12 +43,12 @@ public class AAA extends NetworkFunction {
 		
 		if(packet.equalsField(PacketField.PORT_DST, AUTHENTICATION_PORT_1812)){ 
 			 	// if it's a Authentication Packet from NAS Client, CZ authentication port is 1812
-			String Uname_Pwd = packet.getField(PacketField.L7DATA);
+		/*	String Uname_Pwd = packet.getField(PacketField.L7DATA);
 			String[] parts = Uname_Pwd.split(":");   // assume L7DATA is 'Username:Password'
 			String userName = parts[0];
 			String passWord = parts[1];
-			
-			TableEntry entry = userTable.matchEntry(userName , passWord);
+		*/	
+			TableEntry entry = userTable.matchEntry(packet.getField(PacketField.L7DATA));
 			
 			if(entry==null){
 				p.setField(PacketField.L7DATA, ACCESS_REJECT);				
@@ -70,26 +70,19 @@ public class AAA extends NetworkFunction {
 				return new RoutingResult(Action.FORWARD,p,iface);
 			}
 			
-			/*
-			p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
-			p.setField(PacketField.PORT_SRC, packet.getField(PacketField.PORT_DST));
-			p.setField(PacketField.IP_DST, packet.getField(PacketField.IP_SRC));
-			p.setField(PacketField.PORT_DST, packet.getField(PacketField.PORT_SRC));
-		
-			return new RoutingResult(Action.FORWARD,p,iface);
-			*/
+			
 		}
 		else if(packet.equalsField(PacketField.PORT_DST,ACCOUNTING_PORT_1813 )){
 					// if it's a Accounting Packet from NAS Client , CZ accounting port is 1813
 			
-			String Uname_Pwd = packet.getField(PacketField.L7DATA);
+		//	String Uname_Pwd = packet.getField(PacketField.L7DATA);
 			
 			// assume L7DATA is 'Username:	Periodic number of Bytes'
-			String[] parts = Uname_Pwd.split(":");   
-			String userName = parts[0];
+		/*	String[] parts = Uname_Pwd.split(":");   
+			String userName = parts[0];*/
 		//	Integer byteCount = Integer.parseInt(parts[1]);
 			
-			TableEntry entry = userTable.matchEntry(userName);
+			TableEntry entry = userTable.matchEntry(packet.getField(PacketField.L7DATA));
 			
 			if(entry==null){
 				return new RoutingResult(Action.DROP, null, null);
@@ -118,23 +111,21 @@ public class AAA extends NetworkFunction {
 	}
 	
 	
-	public boolean addUserInfo(String username, String password){
+	public boolean addUserInfo(String authenticationData){
 		
-		TableEntry e = userTable.matchEntry(username.trim());
+		TableEntry e = userTable.matchEntry(authenticationData);
 		
-		if(e!=null)      // can not have two same Usernames
+		if(e!=null)    
 			return false;
 		
 		TableEntry entry = new TableEntry(3);
-		entry.setValue(0, username.trim());
-		entry.setValue(1, password.trim());
-		entry.setValue(2, new String("0"));
-	
+		entry.setValue(0, authenticationData);
+			
 		return userTable.storeEntry(entry);
 	}
 	
-	public boolean removeUserInfo(String username, String password){
-		TableEntry entry  = userTable.matchEntry(username,password);
+	public boolean removeUserInfo(String authenticationData){
+		TableEntry entry  = userTable.matchEntry(authenticationData);
 		
 		return userTable.removeEntry(entry);  // if return false, --> entry is empty
 	}
