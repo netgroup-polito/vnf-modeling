@@ -25,8 +25,8 @@ public class Packet {
 	public static final String DNS_REQUEST = "DNS_REQ";
 	public static final String DNS_RESPONSE = "DNS_RESP";
 	
-	public static final String L2_TCP = "TCP";
-	public static final String L2_UDP = "UDP";
+	public static final String  DNS_PORT_53 = "Dns_53";
+	public static final String  HTTP_PORT_80 = "Http_80";
 	
 	
 	private Map<PacketField, String> fields;
