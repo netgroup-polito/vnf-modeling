@@ -21,7 +21,7 @@ public class GlobalDnsBalancer extends NetworkFunction {
 		super(new ArrayList<Interface>());
 		
 		this.balanTable = new Table(3,0);	// Ip_Src_of_Requester, url, IP_of_CDNNode
-		this.balanTable.setTypes(Table.TableTypes.Ip, Table.TableTypes.Generic, Table.TableTypes.Ip);
+		this.balanTable.setTypes(Table.TableTypes.Ip, Table.TableTypes.ApplicationData, Table.TableTypes.Ip);
 		
 	}
 

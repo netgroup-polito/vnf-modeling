@@ -30,20 +30,24 @@ public class Router extends NetworkFunction {
 	
 		TableEntry entry = routeTable.matchEntry(packet_in.getField(PacketField.IP_DST));
 	
-		if(entry==null){
+		if(entry!=null){
+			String interfaceIp = (String)entry.getValue(1); 
+			Interface forwardInterface = null;  // must exist, because it has been checked when add routeTable rules....
+			for(Interface i : interfaces){
+				if(i.IP_ADRESS.compareTo(interfaceIp)==0){
+					forwardInterface = i;
+					break;
+				}
+			}
+			
+			return new RoutingResult(Action.FORWARD, packet_in, forwardInterface);
+			
+		}
+		else{
 			return new RoutingResult(Action.DROP, null, null);
 		}
 		
-		String interfaceIp = (String)entry.getValue(1); 
-		Interface forwardInterface = null;  // must exist, because it has been checked when add routeTable rules....
-		for(Interface i : interfaces){
-			if(i.IP_ADRESS.compareTo(interfaceIp)==0){
-				forwardInterface = i;
-				break;
-			}
-		}
 		
-		return new RoutingResult(Action.FORWARD, packet_in, forwardInterface);
 	}	
 	
 	public boolean addRouteRule(String dstIp, String inface){

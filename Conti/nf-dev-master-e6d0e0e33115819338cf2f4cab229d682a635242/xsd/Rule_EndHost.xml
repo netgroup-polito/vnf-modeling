@@ -2,7 +2,6 @@
 <Result xmlns="http://www.example.org/LogicalExpressions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/LogicalExpressions LogicalExpressions.xsd">
     <TableSize>0</TableSize>
     <DataDriven>false</DataDriven>
-    <IndirectNF>false</IndirectNF>
     <Node Name="n_0"/>
     <Node Name="n_1"/>
     <Node Name="n_EndHost"/>

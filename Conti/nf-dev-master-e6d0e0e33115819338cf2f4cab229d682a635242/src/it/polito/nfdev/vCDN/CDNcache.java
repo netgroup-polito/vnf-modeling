@@ -64,7 +64,7 @@ public class CDNcache extends NetworkFunction {
 			if(packet.equalsField(PacketField.APPLICATION_PROTOCOL,Packet.HTTP_REQUEST)){
 				TableEntry entry = cdnCacheTable.matchEntry(packet.getField(PacketField.L7DATA));				
 				
-				if(entry != null&&entry.getValue(1)!=null)   
+				if(entry != null)   
 				{
 					p.setField(PacketField.IP_DST, packet.getField(PacketField.IP_SRC));
 					p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));

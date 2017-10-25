@@ -8,29 +8,35 @@ import it.polito.nfdev.lib.Packet;
 import it.polito.nfdev.lib.RoutingResult;
 import it.polito.nfdev.lib.Packet.PacketField;
 import it.polito.nfdev.lib.RoutingResult.Action;
+import it.polito.nfdev.nat.PortPool;
 
 public class EndHost extends NetworkFunction {
 
 	public static final String  REQUESTED_URL = "Requested_url";
 	
 	private String ip_EndHost;
-	private Integer port_EndHost;
 	private String ip_Local_Dns;
+	private PortPool portPool;
 	protected Interface initialForwardingInterface;
 	
-	public EndHost(List<Interface> interfaces, String ip_EndHost, Integer port_EndHost, String ip_Local_Dns) {
+	public EndHost(List<Interface> interfaces, String ip_EndHost, String ip_Local_Dns) {
 		super(interfaces);
 		
 		this.ip_EndHost = ip_EndHost;
-	    this.port_EndHost = port_EndHost;
 	    this.ip_Local_Dns = ip_Local_Dns;
+	    this.portPool = new PortPool(10000, 1024);
 	    initialForwardingInterface = interfaces.get(0);
 	}
 	
 	public RoutingResult defineSendingPacket() {
 		Packet p = new Packet();
+		
+		Integer new_port = portPool.getAvailablePort();
+		if(new_port == null)
+			return new RoutingResult(Action.DROP, null, null);
+		
 		p.setField(PacketField.IP_SRC, ip_EndHost);
-		p.setField(PacketField.PORT_SRC, String.valueOf(port_EndHost));
+		p.setField(PacketField.PORT_SRC, String.valueOf(new_port));
 		p.setField(PacketField.IP_DST, ip_Local_Dns);
 		p.setField(PacketField.PORT_DST, Packet.DNS_PORT_53);
 		p.setField(PacketField.APPLICATION_PROTOCOL, Packet.DNS_REQUEST);

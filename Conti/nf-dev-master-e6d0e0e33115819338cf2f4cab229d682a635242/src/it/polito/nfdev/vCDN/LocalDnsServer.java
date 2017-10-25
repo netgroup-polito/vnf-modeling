@@ -40,7 +40,7 @@ public class LocalDnsServer extends NetworkFunction {
 		this.TIMEOUT = timeout;
 		this.ip_GlobalBalancer = ip_GlobalBalancer;
 		dnsTable = new Table(2, 0);
-		this.dnsTable.setTypes(Table.TableTypes.Generic, Table.TableTypes.Ip);
+		this.dnsTable.setTypes(Table.TableTypes.ApplicationData, Table.TableTypes.Ip);
 		this.dnsTable.setDataDriven();
 		
 	}

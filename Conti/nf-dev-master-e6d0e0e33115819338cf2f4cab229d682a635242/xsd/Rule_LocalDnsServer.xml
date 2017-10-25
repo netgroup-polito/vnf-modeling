@@ -2,8 +2,7 @@
 <Result xmlns="http://www.example.org/LogicalExpressions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/LogicalExpressions LogicalExpressions.xsd">
     <TableSize>2</TableSize>
     <DataDriven>true</DataDriven>
-    <IndirectNF>false</IndirectNF>
-    <TableFields>Generic</TableFields>
+    <TableFields>ApplicationData</TableFields>
     <TableFields>Ip</TableFields>
     <Node Name="n_0"/>
     <Node Name="n_1"/>
@@ -129,7 +128,7 @@
                         </FieldOf>
                     </LeftExpression>
                     <RightExpression>
-                        <Param>req_domain</Param>
+                        <Param>REQUESTED_URL</Param>
                     </RightExpression>
                 </Equal>
             </Expression>
@@ -372,7 +371,7 @@
 </FieldOf>
                             </LeftExpression>
                             <RightExpression>
-<Param>req_domain</Param>
+<Param>REQUESTED_URL</Param>
                             </RightExpression>
                         </Equal>
                     </Expression>

@@ -544,7 +544,7 @@ public class ClassGenerator {
 
 			for (int i = 0; i < tableSize; i++) {
 				
-				if(tableTypes.get(0).compareTo(Constants.ENUM_IP)==0){
+				if(tableTypes.get(i).compareTo(Constants.ENUM_IP)==0){
 					FieldAccess tempFa = ast.newFieldAccess();
 					tempFa.setName(ast.newSimpleName("address"));
 					tempFa.setExpression(ast.newName("nctx"));
