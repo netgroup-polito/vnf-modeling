@@ -15,7 +15,9 @@ public class Packet {
 		PORT_DST,
 		TRANSPORT_PROTOCOL,
 		APPLICATION_PROTOCOL,
-		L7DATA
+		L7DATA,
+		OLD_SRC,
+		OLD_DST
 	};
 	
 	public static final String HTTP_REQUEST = "HTTP_REQ";

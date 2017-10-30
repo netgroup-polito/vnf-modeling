@@ -246,6 +246,38 @@
     </RightExpression>
 </Equal>
                             </Expression>
+                            <Expression>
+<Equal>
+    <LeftExpression>
+        <FieldOf>
+            <Unit>p_0</Unit>
+            <Field>OLD_SRC</Field>
+        </FieldOf>
+    </LeftExpression>
+    <RightExpression>
+        <FieldOf>
+            <Unit>p_1</Unit>
+            <Field>OLD_SRC</Field>
+        </FieldOf>
+    </RightExpression>
+</Equal>
+                            </Expression>
+                            <Expression>
+<Equal>
+    <LeftExpression>
+        <FieldOf>
+            <Unit>p_0</Unit>
+            <Field>OLD_DST</Field>
+        </FieldOf>
+    </LeftExpression>
+    <RightExpression>
+        <FieldOf>
+            <Unit>p_1</Unit>
+            <Field>OLD_DST</Field>
+        </FieldOf>
+    </RightExpression>
+</Equal>
+                            </Expression>
                         </And>
                     </Expression>
                 </Exist>
@@ -486,6 +518,38 @@
         <FieldOf>
             <Unit>p_1</Unit>
             <Field>L7DATA</Field>
+        </FieldOf>
+    </RightExpression>
+</Equal>
+                            </Expression>
+                            <Expression>
+<Equal>
+    <LeftExpression>
+        <FieldOf>
+            <Unit>p_0</Unit>
+            <Field>OLD_SRC</Field>
+        </FieldOf>
+    </LeftExpression>
+    <RightExpression>
+        <FieldOf>
+            <Unit>p_1</Unit>
+            <Field>OLD_SRC</Field>
+        </FieldOf>
+    </RightExpression>
+</Equal>
+                            </Expression>
+                            <Expression>
+<Equal>
+    <LeftExpression>
+        <FieldOf>
+            <Unit>p_0</Unit>
+            <Field>OLD_DST</Field>
+        </FieldOf>
+    </LeftExpression>
+    <RightExpression>
+        <FieldOf>
+            <Unit>p_1</Unit>
+            <Field>OLD_DST</Field>
         </FieldOf>
     </RightExpression>
 </Equal>
@@ -758,6 +822,38 @@
         <FieldOf>
             <Unit>p_1</Unit>
             <Field>L7DATA</Field>
+        </FieldOf>
+    </RightExpression>
+</Equal>
+                            </Expression>
+                            <Expression>
+<Equal>
+    <LeftExpression>
+        <FieldOf>
+            <Unit>p_0</Unit>
+            <Field>OLD_SRC</Field>
+        </FieldOf>
+    </LeftExpression>
+    <RightExpression>
+        <FieldOf>
+            <Unit>p_1</Unit>
+            <Field>OLD_SRC</Field>
+        </FieldOf>
+    </RightExpression>
+</Equal>
+                            </Expression>
+                            <Expression>
+<Equal>
+    <LeftExpression>
+        <FieldOf>
+            <Unit>p_0</Unit>
+            <Field>OLD_DST</Field>
+        </FieldOf>
+    </LeftExpression>
+    <RightExpression>
+        <FieldOf>
+            <Unit>p_1</Unit>
+            <Field>OLD_DST</Field>
         </FieldOf>
     </RightExpression>
 </Equal>

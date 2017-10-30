@@ -194,38 +194,45 @@ public class RuleContext {
 				send1.setPacketOut(packet1.getName());
 				send1.setTimeOut(time1.getName());
 				
+				LOImplies implies1 = factory.createLOImplies();
+				implies1.setAntecedentExpression(factory.createExpressionObject());
+				implies1.setConsequentExpression(factory.createExpressionObject());
+				
 				LOAnd and1 = factory.createLOAnd();
+				ExpressionObject temp1 = factory.createExpressionObject();
+				temp1.setSend(send1);
+				and1.getExpression().add(temp1);
+				
 				if(returnSnapshot.getInterfaceName().compareTo(Constants.INTERNAL_INTERFACE)==0){		//------------------in case normal "forwardInterface ?????"
 								
 					LFIsInternal isInternal = isInternalRule(packet1.getName(), Constants.IP_DESTINATION);
-					ExpressionObject temp1 = factory.createExpressionObject();		
-					
-					temp1.setSend(send1);
-					and1.getExpression().add(temp1);
+				
 					temp1 = factory.createExpressionObject();
 					temp1.setIsInternal(isInternal);
 					and1.getExpression().add(temp1);
+					implies1.getAntecedentExpression().setAnd(and1);
 					
 				}else if(returnSnapshot.getInterfaceName().compareTo(Constants.EXTERNAL_INTERFACE)==0){
 				
 					LONot not = factory.createLONot();
 					LFIsInternal isInternal = isInternalRule(packet1.getName(), Constants.IP_DESTINATION);
-					ExpressionObject temp1 = factory.createExpressionObject();
 					
-					temp1.setSend(send1);
-					and1.getExpression().add(temp1);
 					temp1 = factory.createExpressionObject();
 					temp1.setIsInternal(isInternal);
 					not.setExpression(temp1);
 					temp1 = factory.createExpressionObject();
 					temp1.setNot(not);
 					and1.getExpression().add(temp1);	
-				}else{
-					ExpressionObject temp1 = factory.createExpressionObject();				
-					temp1.setSend(send1);
-					and1.getExpression().add(temp1);
+					implies1.getAntecedentExpression().setAnd(and1);
+					
+				}else{			
+					implies1.getAntecedentExpression().setSend(send1);
 				}
-				result.setAnd(and1);
+				
+				and1 = factory.createLOAnd();
+				implies1.getConsequentExpression().setAnd(and1);
+				
+				result.setImplies(implies1);
 				break;
 				
 			default:
@@ -243,8 +250,10 @@ public class RuleContext {
 		field_names.add(Constants.TRANSPORT_PROTOCOL);
 		field_names.add(Constants.APPLICATION_PROTOCOL);
 		field_names.add(Constants.L7DATA);
+		field_names.add(Constants.OLD_SRC);
+		field_names.add(Constants.OLD_DST);
 		
-	  if(!returnSnapshot.isIndirectSnapshot()){
+	//  if(!returnSnapshot.isIndirectSnapshot()){
 		 // System.out.println("line 248: <<<<<<,,,,,NOT idirectsnapshot  removeField= "+ removeField);
 		if(removeField != null){
 			if(!removeField.isEmpty()){
@@ -264,7 +273,7 @@ public class RuleContext {
 			temp.setEqual(equals_temp);
 			setLastExpression(temp);
 		}
-	}else{
+	/*}else{
 		if(removeField != null){
 			if(!removeField.isEmpty()){
 				removeField.add(Constants.L7DATA);
@@ -304,7 +313,7 @@ public class RuleContext {
 			setExpressionForPacket(temp,"p_2");
 			System.out.println("line 286:>>>>>>>>>>>>>>>>>>>>..set left fields p0=p2" +field);
 		}
-	}	
+	}	*/
 		
 	}
 	
@@ -410,12 +419,12 @@ public class RuleContext {
 			
 			equal.getLeftExpression().setFieldOf(fieldOf);
 	// p0 = p2		
-			List<Variable> vars = globalVariable.get(value);
+	/*		List<Variable> vars = globalVariable.get(value);
 		/*	if(returnSnapshot.isIndirectSnapshot()){
 				System.out.println("line 395:>>>>.>..value = "+value+"  vars size="+vars.size());
 				System.out.println("vars(0)="+vars.get(0).getExp()+"  vars(1)= "+ vars.get(1).getExp());
 			}
-		*/
+		
 			if(vars!=null && vars.size()==2){
 				Variable var = vars.get(1);	   // vars.get(0) = null if it is a global variable;
 				if(var.getExp()!=null){
@@ -454,32 +463,32 @@ public class RuleContext {
 					if(returnSnapshot.isIndirectSnapshot())
 					System.out.println("line429 >>>>>>>>>>>>>>>>>>>running p0_ip = value");
 				}	
-			}else{
+			}else{ */
 					equal.getRightExpression().setParam(value);
-					if(returnSnapshot.isIndirectSnapshot())
-					System.out.println("line432 >>>>>>>>>>>>>>>>>>>running p0_ip = value "+value);
-			}
+			//		if(returnSnapshot.isIndirectSnapshot())
+			//		System.out.println("line432 >>>>>>>>>>>>>>>>>>>running p0_ip = value "+value);
+		//	}
 						
 			//equal.getRightExpression().setParam(value);
 			
 			ExpressionObject exp = factory.createExpressionObject();
 			exp.setEqual(equal);
-			if(returnSnapshot.isIndirectSnapshot()){
+		/*	if(returnSnapshot.isIndirectSnapshot()){
 				setExpressionForPacket(exp, "p_2");	
 				System.out.println("--------------seting p0_ip=p2_ip for entryPoint_p2 ");
 			}
-			else{
+			else{   */
 				if(!returnSnapshot.isInitialPacket()){			
 					setLastExpression(exp);
 				}
 				else{
 					System.out.println(">>>>>>>>>>>>seting for the initial packet fields now\n");
-					if(result.getAnd()!=null){
-					result.getAnd().getExpression().add(exp);   // if it is a initial packet from a endhHost, set up for p0
+					if(result.getImplies()!=null){
+					result.getImplies().getConsequentExpression().getAnd().getExpression().add(exp);   // if it is a initial packet from a endhHost, set up for p0
 					
 					}	
 				}
-			}	
+		//	}	
 			return true;
 		}
 		
@@ -669,9 +678,9 @@ public class RuleContext {
 			
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>* generate entry_point_p3 */
 
-			if(!((value.equals(Constants.DNS_RESPONSE) || value.equals(Constants.HTTP_RESPONSE)) && returnSnapshot.getInterfaceName().equals(Constants.INTERNAL_INTERFACE))){
+		//	if(!((value.equals(Constants.DNS_RESPONSE) || value.equals(Constants.HTTP_RESPONSE)) && returnSnapshot.getInterfaceName().equals(Constants.INTERNAL_INTERFACE))){
 				return exp;
-			}
+		/*	}
 			else{
 				this.returnSnapshot.setIndirectSnapshot();
 				System.out.println("line 647~~~~~~~~~~~~~equals field~~~~~~~~~~~~~~~~returnSnapshot.setIndirectSnapshot();");
@@ -815,7 +824,7 @@ public class RuleContext {
 			    temp1 = factory.createExpressionObject();		
 				temp1.setIsInternal(isInternal);
 				and1.getExpression().add(temp1);
-				
+		*/		
 		/*		equals = factory.createLOEquals();
 				equals.setLeftExpression(factory.createExpressionObject());
 				equals.setRightExpression(factory.createExpressionObject());
@@ -880,7 +889,7 @@ public class RuleContext {
 				temp1.setEqual(equals);
 				and1.getExpression().add(temp1);
 		*/		
-				entryPoint_p2 = and1;
+		/*		entryPoint_p2 = and1;
 				System.out.println("line:829>>>>>>>>>>>>>>>>>entryPoint_p2 = and1;");
 				
 				exist1.getExpression().setAnd(and1);
@@ -930,7 +939,7 @@ public class RuleContext {
 				
 				result.setImplies(implies);
 			}
-			
+		*/	
 			
 			
 		
@@ -1232,6 +1241,10 @@ public class RuleContext {
 			case Constants.APPLICATION_PROTOCOL:
 				return true;
 			case Constants.L7DATA:
+				return true;
+			case Constants.OLD_SRC:
+				return true;
+			case Constants.OLD_DST:
 				return true;
 			default:
 				return false;

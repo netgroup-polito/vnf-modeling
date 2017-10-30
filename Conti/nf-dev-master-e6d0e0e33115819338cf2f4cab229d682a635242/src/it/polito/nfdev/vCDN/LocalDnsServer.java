@@ -20,8 +20,8 @@ public class LocalDnsServer extends NetworkFunction {
 	private String ip_GlobalBalancer;
 	private Table dnsTable;
 	private PortPool portPool;
-	private String REQUESTED_URL;
-	private String client_Ip;
+//	private String REQUESTED_URL;
+	//private String client_Ip;
 	private Interface internalFace;
 	private Interface externalFace;
 
@@ -55,43 +55,40 @@ public class LocalDnsServer extends NetworkFunction {
 		}
 		if (iface.isInternal()) 
 		{
-			if (packet.equalsField(PacketField.APPLICATION_PROTOCOL, Packet.DNS_REQUEST))
+			if (packet.equalsField(PacketField.APPLICATION_PROTOCOL, Packet.HTTP_REQUEST))
 			{
 				TableEntry entry = dnsTable.matchEntry(packet.getField(PacketField.L7DATA), Verifier.ANY_VALUE);
 				if (entry != null) {
-					p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
-					p.setField(PacketField.PORT_SRC, packet.getField(PacketField.PORT_DST));
-					p.setField(PacketField.IP_DST, packet.getField(PacketField.IP_SRC));
-					p.setField(PacketField.PORT_DST, packet.getField(PacketField.PORT_SRC));
-					p.setField(PacketField.APPLICATION_PROTOCOL, Packet.DNS_RESPONSE);
-					p.setField(PacketField.L7DATA, (String) entry.getValue(1));
-					return new RoutingResult(Action.FORWARD, p, internalInterface);
+					p.setField(PacketField.OLD_DST, packet.getField(PacketField.IP_DST));
+					p.setField(PacketField.IP_DST, (String) entry.getValue(1));
+				//	p.setField(PacketField.APPLICATION_PROTOCOL, Packet.HTTP_RESPONSE);
+		
+					return new RoutingResult(Action.FORWARD, p, externalInterface);
 				} else {
-					REQUESTED_URL = packet.getField(PacketField.L7DATA);
-					client_Ip = packet.getField(PacketField.IP_SRC);
-
+				
 					Integer new_port = portPool.getAvailablePort();
 					if (new_port == null)
 						return new RoutingResult(Action.DROP, null, null);
 
-					p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
-					p.setField(PacketField.PORT_SRC, String.valueOf(new_port));
+					p.setField(PacketField.OLD_DST, packet.getField(PacketField.IP_DST));
+					//p.setField(PacketField.PORT_SRC, String.valueOf(new_port));
 					p.setField(PacketField.IP_DST, ip_GlobalBalancer);
-					p.setField(PacketField.PORT_DST, Packet.DNS_PORT_53);
+				//	p.setField(PacketField.PORT_DST, Packet.DNS_PORT_53);
+					p.setField(PacketField.APPLICATION_PROTOCOL, Packet.DNS_REQUEST);
 					return new RoutingResult(Action.FORWARD, p, externalInterface);
 				}
 		   }
+			return new RoutingResult(Action.DROP, null, null);
 		} 
 		else 
 		{
-			if (packet.equalsField(PacketField.APPLICATION_PROTOCOL, Packet.DNS_RESPONSE)) 
+			if (packet.equalsField(PacketField.APPLICATION_PROTOCOL, Packet.HTTP_RESPONSE)) 
 			{
 				TableEntry entry = new TableEntry(2);
-				entry.setValue(0, REQUESTED_URL);
-				entry.setValue(1, packet.getField(PacketField.L7DATA));
+				entry.setValue(0, packet.getField(PacketField.L7DATA));
+				entry.setValue(1, packet.getField(PacketField.OLD_DST));
 				dnsTable.storeEntry(entry);
-				p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
-				p.setField(PacketField.IP_DST, client_Ip);
+				
 				return new RoutingResult(Action.FORWARD, p, internalInterface);
 			}
 		}

@@ -773,6 +773,12 @@ class RuleUnmarshaller {
 				
 			case Constants.L7DATA:
 				return Constants.Z3_L7DATA;
+				
+			case Constants.OLD_SRC:
+				return Constants.Z3_OLD_SRC;
+				
+			case Constants.OLD_DST:
+				return Constants.Z3_OLD_DEST;
 							
 		}
 		

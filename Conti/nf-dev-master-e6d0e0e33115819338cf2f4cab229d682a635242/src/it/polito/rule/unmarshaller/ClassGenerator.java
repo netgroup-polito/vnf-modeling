@@ -542,7 +542,7 @@ public class ClassGenerator {
 			ac.setType(ast.newArrayType(ast.newSimpleType(ast.newName("Sort"))));
 			ArrayInitializer ai = ast.newArrayInitializer();
 
-			for (int i = 0; i < tableSize; i++) {
+			for (int i = 0; i < tableSize-1; i++) {
 				
 				if(tableTypes.get(i).compareTo(Constants.ENUM_IP)==0){
 					FieldAccess tempFa = ast.newFieldAccess();
@@ -685,7 +685,7 @@ public class ClassGenerator {
 			method.getBody().statements().add(is);
 			
 			
-			for(int i = 0; i<tableSize;i++){
+			for(int i = 0; i<tableSize-1;i++){
 				assignment = ast.newAssignment();
 				
 				varFrag = ast.newVariableDeclarationFragment();
@@ -785,7 +785,7 @@ public class ClassGenerator {
 			MethodInvocation mkAnd = ast.newMethodInvocation();
 			mkAnd.setName(ast.newSimpleName("mkAnd"));
 			mkAnd.setExpression(ast.newName("ctx"));
-			for(int i = 0; i < tableSize; i++){
+			for(int i = 0; i < tableSize-1; i++){
 				MethodInvocation mkEq = ast.newMethodInvocation();
 				mkEq.setName(ast.newSimpleName("mkEq"));
 				mkEq.setExpression(ast.newName("ctx"));
@@ -817,7 +817,7 @@ public class ClassGenerator {
 			ArrayCreation expr = ast.newArrayCreation();
 			expr.setType(ast.newArrayType(ast.newSimpleType(ast.newName("Expr"))));
 			ArrayInitializer ai = ast.newArrayInitializer();
-			for(int i = 0; i < tableSize; i++){	
+			for(int i = 0; i < tableSize-1; i++){	
 				ai.expressions().add(ast.newName("e_"+i));	
 			}
 			expr.setInitializer(ai);
@@ -831,7 +831,7 @@ public class ClassGenerator {
 			MethodInvocation apply = ast.newMethodInvocation();
 			apply.setName(ast.newSimpleName("apply"));
 			apply.setExpression(ast.newName("matchEntry"));	
-			for(int i = 0; i < tableSize; i++){	
+			for(int i = 0; i < tableSize-1; i++){	
 				apply.arguments().add(ast.newName("e_"+i));
 			}
 			mkEq.arguments().add(apply);

@@ -46,6 +46,8 @@ public class Constants {
 	public static final String TRANSPORT_PROTOCOL = "TRANSPORT_PROTOCOL";
 	public static final String APPLICATION_PROTOCOL = "APPLICATION_PROTOCOL";
 	public static final String L7DATA = "L7DATA"; 
+	public static final String OLD_SRC = "OLD_SRC";
+	public static final String OLD_DST = "OLD_DST";
 	
 	//Z3 packet fields
 	public static final String Z3_ETH_SOURCE = "src_eth";
@@ -57,6 +59,8 @@ public class Constants {
 	public static final String Z3_TRANSPORT_PROTOCOL = "transport_protocol";
 	public static final String Z3_APPLICATION_PROTOCOL = "proto";
 	public static final String Z3_L7DATA = "application_data";
+	public static final String Z3_OLD_SRC = "oldSrc";
+	public static final String Z3_OLD_DEST = "oldDest";
 	
 	//Placeholder
 	public static final String ANY_VALUE = "ANY_VALUE";

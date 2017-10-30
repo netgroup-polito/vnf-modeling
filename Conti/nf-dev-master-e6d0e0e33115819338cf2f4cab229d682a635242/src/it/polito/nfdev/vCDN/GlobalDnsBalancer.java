@@ -35,21 +35,24 @@ public class GlobalDnsBalancer extends NetworkFunction {
 			return new RoutingResult(Action.DROP, null, null); 
 		}
 		
-		TableEntry entry = balanTable.matchEntry(packet_in.getField(PacketField.IP_SRC), packet_in.getField(PacketField.L7DATA), Verifier.ANY_VALUE);
-		if(entry != null)
-		{
-			packet_in.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
-			packet_in.setField(PacketField.PORT_SRC, packet.getField(PacketField.PORT_DST));
-			packet_in.setField(PacketField.IP_DST, packet.getField(PacketField.IP_SRC));
-			packet_in.setField(PacketField.PORT_DST, packet.getField(PacketField.PORT_SRC));
-			packet_in.setField(PacketField.APPLICATION_PROTOCOL, Packet.DNS_RESPONSE);
-			packet_in.setField(PacketField.L7DATA, (String) entry.getValue(2));
-			
-			return new RoutingResult(Action.FORWARD,packet_in,iface);
+			if (packet.equalsField(PacketField.APPLICATION_PROTOCOL, Packet.HTTP_REQUEST)){
+				return new RoutingResult(Action.FORWARD,packet_in,iface);
 		
-		}
+			}
+			else{
+				if (packet.equalsField(PacketField.APPLICATION_PROTOCOL, Packet.DNS_REQUEST)){
+					TableEntry entry = balanTable.matchEntry(packet_in.getField(PacketField.IP_SRC), packet_in.getField(PacketField.L7DATA), Verifier.ANY_VALUE);
+					if(entry != null){
+						packet_in.setField(PacketField.IP_DST, (String) entry.getValue(2));
+						return new RoutingResult(Action.FORWARD,packet_in,iface);
+					}
+					
+				}
+			}
 		return new RoutingResult(Action.DROP,null,null);
 		
+		}
+	
 	}
 
-}
+

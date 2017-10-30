@@ -1,6 +1,7 @@
 package it.polito.nfdev.vCDN;
 
 import java.util.List;
+import java.net.MalformedURLException;
 import java.net.URL;
 import it.polito.nfdev.lib.Interface;
 import it.polito.nfdev.lib.NetworkFunction;
@@ -16,19 +17,18 @@ import it.polito.nfdev.nat.PortPool;
 
 public class CDNcache extends NetworkFunction {
 
-	private String webServer_Ip;
-	private String client_Ip;
-	private PortPool portPool;
+//	private String webServer_Ip;
+//	private String client_Ip;
+//	private PortPool portPool;
 	private Interface internalFace;
 	private Interface externalFace;
 	
 	@Table( fields = {"URL", "CONTENT"} )
 	private CacheTable cdnCacheTable;
 	
-	public CDNcache(List<Interface> interfaces,String webServer_Ip) {
+	public CDNcache(List<Interface> interfaces) {
 		super(interfaces);
 		assert interfaces.size() == 2;
-		assert webServer_Ip != null && !webServer_Ip.isEmpty();
 		internalFace = null;
 		externalFace = null;
 		for(Interface i : interfaces)
@@ -42,8 +42,6 @@ public class CDNcache extends NetworkFunction {
 		assert externalFace != null;
 		assert internalFace.getId() != externalFace.getId();
 		
-		this.webServer_Ip=webServer_Ip;
-		this.portPool = new PortPool(10000, 1024);
 		this.cdnCacheTable = new CacheTable(2,0);  // URL, CONTENT
 		this.cdnCacheTable.setDataDriven();
 		
@@ -67,7 +65,8 @@ public class CDNcache extends NetworkFunction {
 				if(entry != null)   
 				{
 					p.setField(PacketField.IP_DST, packet.getField(PacketField.IP_SRC));
-					p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
+					p.setField(PacketField.IP_SRC, packet.getField(PacketField.OLD_DST));
+					p.setField(PacketField.OLD_DST, packet.getField(PacketField.IP_DST));
 					p.setField(PacketField.PORT_DST, packet.getField(PacketField.PORT_SRC));
 					p.setField(PacketField.PORT_SRC, packet.getField(PacketField.PORT_DST));
 					p.setField(PacketField.APPLICATION_PROTOCOL, Packet.HTTP_RESPONSE);
@@ -77,16 +76,9 @@ public class CDNcache extends NetworkFunction {
 				}
 				else 
 				{
-					client_Ip = packet.getField(PacketField.IP_SRC);
+					p.setField(PacketField.IP_DST, packet.getField(PacketField.OLD_DST));
+					p.setField(PacketField.OLD_DST, packet.getField(PacketField.IP_DST));
 					
-					Integer new_port = portPool.getAvailablePort();
-					if (new_port == null)
-						return new RoutingResult(Action.DROP, null, null);
-					
-					p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
-					p.setField(PacketField.PORT_SRC, String.valueOf(new_port));
-					p.setField(PacketField.IP_DST, webServer_Ip);
-					p.setField(PacketField.PORT_DST, Packet.HTTP_PORT_80);
 					
 					return new RoutingResult(Action.FORWARD, p, externalInterface); 
 				}
@@ -97,24 +89,24 @@ public class CDNcache extends NetworkFunction {
 		else  
 		{		
 			if(packet.equalsField(PacketField.APPLICATION_PROTOCOL,Packet.HTTP_RESPONSE)){
-				CacheTableEntry cacheEntry = (CacheTableEntry)cdnCacheTable.matchEntry(packet.getField(PacketField.L7DATA), Verifier.ANY_VALUE, Verifier.ANY_VALUE);
-				if(cacheEntry!=null){
-				try{
-					Content content = new Content(new URL(packet.getField(PacketField.L7DATA)));
-					CacheTableEntry newEntry = new CacheTableEntry(3);
+				
+					Content content;
+					try {
+						content = new Content(new URL(packet.getField(PacketField.L7DATA)));
+					
+					CacheTableEntry newEntry = new CacheTableEntry(2);
 					newEntry.setValue(0, packet.getField(PacketField.L7DATA));
 					newEntry.setValue(1, content);
-					cdnCacheTable.removeEntry(cacheEntry);
 					cdnCacheTable.storeEntry(newEntry);
-					p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
-					p.setField(PacketField.IP_DST, client_Ip); 
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				/*	p.setField(PacketField.IP_SRC, packet.getField(PacketField.IP_DST));
+					p.setField(PacketField.IP_DST, packet.getField(PacketField.IP_SRC)); 
+				*/
 					return new RoutingResult(Action.FORWARD, p, internalInterface); 
 					
-				} catch(Exception ex)
-				{
-					ex.printStackTrace();
-				}
-				}
+				
 			}
 			return new RoutingResult(Action.DROP, null, null);
 			

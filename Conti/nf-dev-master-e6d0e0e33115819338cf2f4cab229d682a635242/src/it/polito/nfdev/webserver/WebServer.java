@@ -21,10 +21,11 @@ public class WebServer extends NetworkFunction {
 	public WebServer(){
 		super(new ArrayList<Interface>());
 		
-		this.urlList = new Table(1, 0);
-		this.urlList.setTypes(Table.TableTypes.ApplicationData);
-		TableEntry entry = new TableEntry(1);
+		this.urlList = new Table(2, 0);
+		this.urlList.setTypes(Table.TableTypes.ApplicationData, Table.TableTypes.ApplicationData);
+		TableEntry entry = new TableEntry(2);
 		entry.setValue(0, URL);
+		entry.setValue(1, URL);
 		
 		urlList.storeEntry(entry);
 	}

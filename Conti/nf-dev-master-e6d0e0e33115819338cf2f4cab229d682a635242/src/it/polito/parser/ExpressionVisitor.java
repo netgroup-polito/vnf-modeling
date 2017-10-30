@@ -201,7 +201,7 @@ public class ExpressionVisitor extends ASTVisitor {
 	
 	public List<MyExpression> getPredicates() { return predicates; }
 	
-public boolean checkPacketField(String field){
+/*public boolean checkPacketField(String field){
 		
 		switch(field){
 			case Constants.IP_SOURCE:
@@ -218,10 +218,14 @@ public boolean checkPacketField(String field){
 				return true;
 			case Constants.L7DATA:
 				return true;
+			case Constants.OLD_SRC:
+				return true;
+			case Constants.OLD_DST:
+				return true;
 			default:
 				return false;
 		}
 		
 	}
-	
+*/	
 }
