@@ -11,9 +11,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java per VNF complex type.
+ * <p>VNF complex type\u7684 Java \u7c7b\u3002
  * 
- * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+ * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
  * 
  * <pre>
  * &lt;complexType name="VNF">
@@ -222,7 +222,7 @@ public class VNF {
     protected VNF.RoutingTable routingTable;
 
     /**
-     * Recupera il valore della proprietà name.
+     * \u83b7\u53d6name\u5c5e\u6027\u7684\u503c\u3002
      * 
      * @return
      *     possible object is
@@ -234,7 +234,7 @@ public class VNF {
     }
 
     /**
-     * Imposta il valore della proprietà name.
+     * \u8bbe\u7f6ename\u5c5e\u6027\u7684\u503c\u3002
      * 
      * @param value
      *     allowed object is
@@ -275,7 +275,7 @@ public class VNF {
     }
 
     /**
-     * Recupera il valore della proprietà aclFirewallOrDumbNodeOrEndHost.
+     * \u83b7\u53d6aclFirewallOrDumbNodeOrEndHost\u5c5e\u6027\u7684\u503c\u3002
      * 
      * @return
      *     possible object is
@@ -298,7 +298,7 @@ public class VNF {
     }
 
     /**
-     * Imposta il valore della proprietà aclFirewallOrDumbNodeOrEndHost.
+     * \u8bbe\u7f6eaclFirewallOrDumbNodeOrEndHost\u5c5e\u6027\u7684\u503c\u3002
      * 
      * @param value
      *     allowed object is
@@ -321,7 +321,7 @@ public class VNF {
     }
 
     /**
-     * Recupera il valore della proprietà routingTable.
+     * \u83b7\u53d6routingTable\u5c5e\u6027\u7684\u503c\u3002
      * 
      * @return
      *     possible object is
@@ -333,7 +333,7 @@ public class VNF {
     }
 
     /**
-     * Imposta il valore della proprietà routingTable.
+     * \u8bbe\u7f6eroutingTable\u5c5e\u6027\u7684\u503c\u3002
      * 
      * @param value
      *     allowed object is
@@ -346,9 +346,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -415,9 +415,9 @@ public class VNF {
 
 
         /**
-         * <p>Classe Java per anonymous complex type.
+         * <p>anonymous complex type\u7684 Java \u7c7b\u3002
          * 
-         * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+         * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
          * 
          * <pre>
          * &lt;complexType>
@@ -447,7 +447,7 @@ public class VNF {
             protected VNFIp ip2;
 
             /**
-             * Recupera il valore della proprietà ip1.
+             * \u83b7\u53d6ip1\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @return
              *     possible object is
@@ -459,7 +459,7 @@ public class VNF {
             }
 
             /**
-             * Imposta il valore della proprietà ip1.
+             * \u8bbe\u7f6eip1\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @param value
              *     allowed object is
@@ -471,7 +471,7 @@ public class VNF {
             }
 
             /**
-             * Recupera il valore della proprietà ip2.
+             * \u83b7\u53d6ip2\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @return
              *     possible object is
@@ -483,7 +483,7 @@ public class VNF {
             }
 
             /**
-             * Imposta il valore della proprietà ip2.
+             * \u8bbe\u7f6eip2\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @param value
              *     allowed object is
@@ -500,9 +500,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -524,9 +524,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -548,9 +548,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -608,9 +608,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -668,9 +668,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -692,9 +692,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -716,9 +716,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -740,9 +740,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -809,9 +809,9 @@ public class VNF {
 
 
         /**
-         * <p>Classe Java per anonymous complex type.
+         * <p>anonymous complex type\u7684 Java \u7c7b\u3002
          * 
-         * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+         * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
          * 
          * <pre>
          * &lt;complexType>
@@ -841,7 +841,7 @@ public class VNF {
             protected VNFIp ip2;
 
             /**
-             * Recupera il valore della proprietà ip1.
+             * \u83b7\u53d6ip1\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @return
              *     possible object is
@@ -853,7 +853,7 @@ public class VNF {
             }
 
             /**
-             * Imposta il valore della proprietà ip1.
+             * \u8bbe\u7f6eip1\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @param value
              *     allowed object is
@@ -865,7 +865,7 @@ public class VNF {
             }
 
             /**
-             * Recupera il valore della proprietà ip2.
+             * \u83b7\u53d6ip2\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @return
              *     possible object is
@@ -877,7 +877,7 @@ public class VNF {
             }
 
             /**
-             * Imposta il valore della proprietà ip2.
+             * \u8bbe\u7f6eip2\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @param value
              *     allowed object is
@@ -894,9 +894,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -954,9 +954,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -982,7 +982,7 @@ public class VNF {
         protected VNFIp serverIP;
 
         /**
-         * Recupera il valore della proprietà serverIP.
+         * \u83b7\u53d6serverIP\u5c5e\u6027\u7684\u503c\u3002
          * 
          * @return
          *     possible object is
@@ -994,7 +994,7 @@ public class VNF {
         }
 
         /**
-         * Imposta il valore della proprietà serverIP.
+         * \u8bbe\u7f6eserverIP\u5c5e\u6027\u7684\u503c\u3002
          * 
          * @param value
          *     allowed object is
@@ -1009,9 +1009,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -1033,9 +1033,9 @@ public class VNF {
 
 
     /**
-     * <p>Classe Java per anonymous complex type.
+     * <p>anonymous complex type\u7684 Java \u7c7b\u3002
      * 
-     * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+     * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
      * 
      * <pre>
      * &lt;complexType>
@@ -1102,9 +1102,9 @@ public class VNF {
 
 
         /**
-         * <p>Classe Java per anonymous complex type.
+         * <p>anonymous complex type\u7684 Java \u7c7b\u3002
          * 
-         * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+         * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
          * 
          * <pre>
          * &lt;complexType>
@@ -1134,7 +1134,7 @@ public class VNF {
             protected VNFName name;
 
             /**
-             * Recupera il valore della proprietà ip.
+             * \u83b7\u53d6ip\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @return
              *     possible object is
@@ -1146,7 +1146,7 @@ public class VNF {
             }
 
             /**
-             * Imposta il valore della proprietà ip.
+             * \u8bbe\u7f6eip\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @param value
              *     allowed object is
@@ -1158,7 +1158,7 @@ public class VNF {
             }
 
             /**
-             * Recupera il valore della proprietà name.
+             * \u83b7\u53d6name\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @return
              *     possible object is
@@ -1170,7 +1170,7 @@ public class VNF {
             }
 
             /**
-             * Imposta il valore della proprietà name.
+             * \u8bbe\u7f6ename\u5c5e\u6027\u7684\u503c\u3002
              * 
              * @param value
              *     allowed object is

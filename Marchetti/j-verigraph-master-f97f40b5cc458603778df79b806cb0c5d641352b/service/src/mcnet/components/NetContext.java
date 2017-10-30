@@ -42,6 +42,13 @@ public class NetContext extends Core{
 	   	public final int HTTP_RESPONSE   = 2;
 	   	public final int POP3_REQUEST    = 3;
 	   	public final int POP3_RESPONSE   = 4;
+		public final int DNS_REQUEST    = 5;
+	   	public final int DNS_RESPONSE   = 6;
+	   	public final int DNS_PORT_53    = 53;
+	   	public final int HTTP_PORT_80   = 80;
+	  /* 	public final int new_port   = 9;
+	   	public final int value_0   = 10;*/
+	   	public final int REQUESTED_URL = 11;
 
 		/**
 		 * Context for all of the rest that follows. Every network needs one of these
@@ -109,12 +116,16 @@ public class NetContext extends Core{
 	        // -   body: Packet contents. (Integer)
 	        // -   seq: Sequence number for packets. (Integer)
 	        // -   options: A representation for IP options. (Integer)
+	    	// -   oldSrc: 
+	    	// -   oldDest:
 
-	        String[] fieldNames = new String[]{
+	        String[] fieldNames = new String[]{ "src_port", "dst_port", "application_data", "transport_protocol", "oldSrc", "oldDest", 
 	        		"src","dest","origin","orig_body","body","seq","proto","emailFrom","url","options"};
-	        Sort[] srt = new Sort[]{
+	        
+	        Sort[] srt = new Sort[]{ ctx.mkIntSort(),ctx.mkIntSort(),  ctx.mkIntSort(),  ctx.mkIntSort(), address,address,
 	        		address,address,node,ctx.mkIntSort(),ctx.mkIntSort(),ctx.mkIntSort(),
 	        		ctx.mkIntSort(),ctx.mkIntSort(),ctx.mkIntSort(),ctx.mkIntSort()};
+	        
 	        Constructor packetcon = ctx.mkConstructor("packet", "is_packet", fieldNames, srt, null);
 	        packet = ctx.mkDatatypeSort("packet",  new Constructor[] {packetcon});
 
@@ -129,6 +140,7 @@ public class NetContext extends Core{
 	        
 	        // nodeHasAddr: node -> address -> boolean
 	        nodeHasAddr = ctx.mkFuncDecl("nodeHasAddr", new Sort[]{node, address},ctx.mkBoolSort());
+	        /*in checker: solver.add((BoolExpr)nctx.nodeHasAddr.apply(src.getZ3Node(), nctx.pf.get("src").apply(p1)));*/
 	        
 	        // addrToNode: address -> node
 	        addrToNode = ctx.mkFuncDecl("addrToNode", address, node);

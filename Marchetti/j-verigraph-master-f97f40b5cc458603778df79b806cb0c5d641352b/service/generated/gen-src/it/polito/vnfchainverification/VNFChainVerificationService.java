@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "VNFChainVerificationService", targetNamespace = "http://www.example.org/checkisolation", wsdlLocation = "file:/C:/Users/Jacopo/Desktop/SPECIAL_PROJECT/Workspace/j-verigraph/service/resources/j-verigraph.wsdl")
+@WebServiceClient(name = "VNFChainVerificationService", targetNamespace = "http://www.example.org/checkisolation", wsdlLocation = "file:/C:/Users/Rui/git/vnf-modeling/Marchetti/j-verigraph-master-f97f40b5cc458603778df79b806cb0c5d641352b/service/resources/j-verigraph.wsdl")
 public class VNFChainVerificationService
     extends Service
 {
@@ -30,7 +30,7 @@ public class VNFChainVerificationService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/C:/Users/Jacopo/Desktop/SPECIAL_PROJECT/Workspace/j-verigraph/service/resources/j-verigraph.wsdl");
+            url = new URL("file:/C:/Users/Rui/git/vnf-modeling/Marchetti/j-verigraph-master-f97f40b5cc458603778df79b806cb0c5d641352b/service/resources/j-verigraph.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

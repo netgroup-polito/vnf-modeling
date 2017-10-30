@@ -11,9 +11,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java per anonymous complex type.
+ * <p>anonymous complex type\u7684 Java \u7c7b\u3002
  * 
- * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+ * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
  * 
  * <pre>
  * &lt;complexType>
@@ -48,7 +48,7 @@ public class CheckIsolationProperty {
     protected List<VNF> vnf;
 
     /**
-     * Recupera il valore della proprietà source.
+     * \u83b7\u53d6source\u5c5e\u6027\u7684\u503c\u3002
      * 
      * @return
      *     possible object is
@@ -60,7 +60,7 @@ public class CheckIsolationProperty {
     }
 
     /**
-     * Imposta il valore della proprietà source.
+     * \u8bbe\u7f6esource\u5c5e\u6027\u7684\u503c\u3002
      * 
      * @param value
      *     allowed object is
@@ -72,7 +72,7 @@ public class CheckIsolationProperty {
     }
 
     /**
-     * Recupera il valore della proprietà destination.
+     * \u83b7\u53d6destination\u5c5e\u6027\u7684\u503c\u3002
      * 
      * @return
      *     possible object is
@@ -84,7 +84,7 @@ public class CheckIsolationProperty {
     }
 
     /**
-     * Imposta il valore della proprietà destination.
+     * \u8bbe\u7f6edestination\u5c5e\u6027\u7684\u503c\u3002
      * 
      * @param value
      *     allowed object is

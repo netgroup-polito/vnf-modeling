@@ -135,9 +135,9 @@ public class PolitoCacheNatFwTest {
 	    acl.add(new Tuple<DatatypeExpr,DatatypeExpr>(nctx.am.get("ip_politoNat"),nctx.am.get("ip_hostB")));
 	    
 	    //Configuring middleboxes
-	    politoNat.setInternalAddress(ia);  //ia e la lista di nodi interni del nat (a e c)
-	    politoCache.installCache(new NetworkObject[]{hostA}); //setta la lista di nodi interni alla cache (solo a)
-	    politoFw.addAcls(acl); //aggiunge la regola al fw (comunicazione vietata tra nat e host b)
+	    politoNat.setInternalAddress(ia);   //ia is the list of internal nodes of the nat (a and c)
+	    politoCache.installCache(new NetworkObject[]{hostA}); //set the cache internal node list (only hostA)
+	    politoFw.addAcls(acl); //adds the rule to fw (banned communication between nat and host b)
 	
 	    check = new Checker(ctx,nctx,net);
 

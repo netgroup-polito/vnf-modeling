@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java per anonymous complex type.
+ * <p>anonymous complex type\u7684 Java \u7c7b\u3002
  * 
- * <p>Il seguente frammento di schema specifica il contenuto previsto contenuto in questa classe.
+ * <p>\u4ee5\u4e0b\u6a21\u5f0f\u7247\u6bb5\u6307\u5b9a\u5305\u542b\u5728\u6b64\u7c7b\u4e2d\u7684\u9884\u671f\u5185\u5bb9\u3002
  * 
  * <pre>
  * &lt;complexType>
@@ -38,7 +38,7 @@ public class CheckIsolationPropertyResponse {
     protected boolean satisfied;
 
     /**
-     * Recupera il valore della proprietà satisfied.
+     * \u83b7\u53d6satisfied\u5c5e\u6027\u7684\u503c\u3002
      * 
      */
     public boolean isSatisfied() {
@@ -46,7 +46,7 @@ public class CheckIsolationPropertyResponse {
     }
 
     /**
-     * Imposta il valore della proprietà satisfied.
+     * \u8bbe\u7f6esatisfied\u5c5e\u6027\u7684\u503c\u3002
      * 
      */
     public void setSatisfied(boolean value) {
